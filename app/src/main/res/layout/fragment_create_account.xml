@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraint_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".activities.users.fragments.CreateAccountFragment">
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/create_account_arrow_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/colorLightBlue"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_arrow_back_white_24dp"
+        app:borderWidth="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/create_account_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorGrey"
+        android:ems="10"
+        android:hint="@string/username_placeholder"
+        android:inputType="textPersonName"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorGrey"
+        app:layout_constraintBottom_toTopOf="@+id/create_account_email"
+        app:layout_constraintEnd_toStartOf="@+id/create_account_right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/create_account_left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/create_account_title" />
+
+    <EditText
+        android:id="@+id/create_account_email"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorGrey"
+        android:ems="10"
+        android:hint="@string/email_placeholder"
+        android:inputType="textEmailAddress"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorGrey"
+        app:layout_constraintBottom_toTopOf="@+id/create_account_password"
+        app:layout_constraintEnd_toStartOf="@+id/create_account_right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/create_account_left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/create_account_username" />
+
+    <EditText
+        android:id="@+id/create_account_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorGrey"
+        android:ems="10"
+        android:hint="@string/password_placeholder"
+        android:inputType="textPassword"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorGrey"
+        app:layout_constraintBottom_toTopOf="@+id/create_account_repeat_password"
+        app:layout_constraintEnd_toStartOf="@+id/create_account_right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/create_account_left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/create_account_email" />
+
+    <EditText
+        android:id="@+id/create_account_repeat_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorGrey"
+        android:ems="10"
+        android:hint="@string/repeat_password_placeholder"
+        android:inputType="textPassword"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorGrey"
+        app:layout_constraintBottom_toTopOf="@+id/create_account_submit_button"
+        app:layout_constraintEnd_toStartOf="@+id/create_account_right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/create_account_left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/create_account_password" />
+
+    <Button
+        android:id="@+id/create_account_submit_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:backgroundTint="@color/colorLightBlue"
+        android:text="@string/create_account_submit"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/create_account_to_login_link"
+        app:layout_constraintEnd_toStartOf="@+id/create_account_right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/create_account_left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/create_account_repeat_password" />
+
+    <TextView
+        android:id="@+id/create_account_to_login_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_link_text"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/create_account_right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/create_account_left_guideline"
+        app:layout_constraintTop_toBottomOf="@+id/create_account_submit_button" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/create_account_left_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/create_account_right_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <TextView
+        android:id="@+id/create_account_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_account_title"
+        android:textColor="@color/colorLightBlue"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/create_account_username"
+        app:layout_constraintEnd_toStartOf="@+id/create_account_right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/create_account_left_guideline"
+        app:layout_constraintTop_toTopOf="@+id/create_account_top_guideline" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/create_account_top_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Have I Seen It</string>
+    <!--  Image descriptions  -->
+    <string name="splash_background_description">Splash Screen primary color Background Image</string>
+    <string name="splash_icon_description">Splash Screen Icon Image</string>
+    <!--  Login  -->
+    <string name="login">Login</string>
+    <string name="create_account_link_text">
+        <u>Join The Club</u>
+    </string>
+    <string name="email_placeholder">Email</string>
+    <string name="password_placeholder">Contraseña</string>
+    <!--  Create Account  -->
+    <string name="create_account_title">Crear Cuenta</string>
+    <string name="username_placeholder">Nombre de Usuario</string>
+    <string name="repeat_password_placeholder">Repetir Contraseña</string>
+    <string name="create_account_submit">Lets Go!</string>
+    <string name="login_link_text">
+        <u>Ir a Login</u>
+    </string>
+    <string name="hello_blank_fragment">TODO</string>
+
+</resources>
