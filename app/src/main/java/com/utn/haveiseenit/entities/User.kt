@@ -2,8 +2,8 @@ package com.utn.haveiseenit.entities
 
 import androidx.room.*
 
-@Entity(tableName = "users")
-class User(
+@Entity(tableName = "users", indices = [Index(value = ["userName", "email"], unique = true)])
+open class User(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Int,

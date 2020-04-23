@@ -10,6 +10,7 @@
     </string>
     <string name="email_placeholder">Email</string>
     <string name="password_placeholder">Contraseña</string>
+    <string name="login_failed_message">Usuario y/o contraseña incorrectos</string>
     <!--  Create Account  -->
     <string name="create_account_title">Crear Cuenta</string>
     <string name="username_placeholder">Nombre de Usuario</string>
@@ -21,6 +22,7 @@
     </string>
     <string name="hello_blank_fragment">TODO</string>
     <string name="password_mismatch_message">Las contraseñas no coinciden</string>
+    <string name="user_created_message">Su usuario ha sido creado</string>
     <!--   Forms   -->
     <string name="email_missing_message">Debe ingresar un email</string>
     <string name="password_missing_message">Debe ingresar una contraseña</string>

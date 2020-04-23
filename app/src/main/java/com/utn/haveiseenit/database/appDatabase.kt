@@ -9,7 +9,7 @@ import com.utn.haveiseenit.entities.Note
 import com.utn.haveiseenit.entities.Review
 import com.utn.haveiseenit.entities.User
 
-@Database(entities = [User::class, Movie::class, Review::class, Note::class], version = 1, exportSchema = false)
+@Database(entities = [User::class, Movie::class, Review::class, Note::class], version = 2, exportSchema = false)
 abstract class appDatabase : RoomDatabase() {
 
     abstract fun userDao(): UserDao

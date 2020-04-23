@@ -10,9 +10,15 @@ import android.widget.TextView
 import androidx.navigation.findNavController
 
 import com.utn.haveiseenit.R
+import com.utn.haveiseenit.database.appDatabase
+import com.utn.haveiseenit.forms.Form
+import com.utn.haveiseenit.services.UserAuthentication
 
 class Login : Fragment() {
     private lateinit var v: View
+    private var db: appDatabase? = null
+    private lateinit var loginForm: Form
+    private lateinit var authService: UserAuthentication
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
@@ -27,8 +33,17 @@ class Login : Fragment() {
 
     override fun onStart() {
         super.onStart()
+        db = appDatabase.getAppDataBase(v.context)
+        authService = UserAuthentication(db!!.userDao())
         setNavigateToCreateAccount()
-        setNavigateToMoviesList()
+        loginForm = Form(requireContext())
+            .addEmailInput(v.findViewById(R.id.login_email_input), "email")
+            .addPasswordInput(
+                v.findViewById(R.id.login_password_input),
+                "password",
+                validatePattern = false,
+                isLast = true
+            ).addSubmitButton(v.findViewById(R.id.login_submit_button), onSubmit)
     }
 
     private fun setNavigateToCreateAccount(){
@@ -37,10 +52,19 @@ class Login : Fragment() {
         }
     }
 
-    // TODO: this will be taken by the form service
-    private fun setNavigateToMoviesList(){
-        v.findViewById<Button>(R.id.login_submit_button).setOnClickListener {
-            v.findNavController().navigate(LoginDirections.actionLoginToMovieNavigation())
+    private val onSubmit = {
+        if (loginForm.isValid()) {
+            authService.login(
+                loginForm.getValue("email"),
+                loginForm.getValue("password")
+            ) { _, error ->
+                if (error == null) {
+                    v.findNavController().navigate(LoginDirections.actionLoginToMovieNavigation())
+                    v.findViewById<TextView>(R.id.login_failed_text).visibility = View.INVISIBLE
+                } else {
+                    v.findViewById<TextView>(R.id.login_failed_text).visibility = View.VISIBLE
+                }
+            }
         }
     }
 }

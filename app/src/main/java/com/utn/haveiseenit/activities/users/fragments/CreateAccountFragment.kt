@@ -17,12 +17,14 @@ import com.utn.haveiseenit.database.UserDao
 import com.utn.haveiseenit.database.appDatabase
 import com.utn.haveiseenit.entities.User
 import com.utn.haveiseenit.forms.Form
+import com.utn.haveiseenit.services.UserAuthentication
 
 class CreateAccountFragment : Fragment() {
     private lateinit var v: View
     private lateinit var newAccountForm: Form
     private var db: appDatabase? = null
     private var userDao: UserDao? = null
+    private lateinit var authService: UserAuthentication
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,7 @@ class CreateAccountFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         db = appDatabase.getAppDataBase(v.context)
+        authService = UserAuthentication(db!!.userDao())
         setLinkToLogin()
         setArrowBack()
         newAccountForm = Form(requireContext())
@@ -64,17 +67,22 @@ class CreateAccountFragment : Fragment() {
     }
 
     private val onSubmit = {
-        userDao = db?.userDao()
-        val user = User(
-            0,
-            userName = newAccountForm.getValue("userName"),
-            email = newAccountForm.getValue("email"),
-            passHash = newAccountForm.getValue("password")
-        )
-        userDao?.insertPerson(user)
-        val users = userDao?.loadAllPersons()
-        Snackbar.make(v, "UserId = ${users?.lastOrNull()?.id}", Snackbar.LENGTH_SHORT).show()
-        Unit
+        if (newAccountForm.isValid()) {
+            authService.createUser(
+                newAccountForm.getValue("userName"),
+                newAccountForm.getValue("email"),
+                newAccountForm.getValue("password")
+            ) { error ->
+                if (error == null) {
+                    Snackbar.make(
+                        v,
+                        getString(R.string.user_created_message),
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                    navigateToLogin()
+                }
+            }
+        }
     }
 
     private fun setLinkToLogin() {
@@ -94,3 +102,4 @@ class CreateAccountFragment : Fragment() {
             .navigate(CreateAccountFragmentDirections.actionCreateAccountFragmentToLogin())
     }
 }
+

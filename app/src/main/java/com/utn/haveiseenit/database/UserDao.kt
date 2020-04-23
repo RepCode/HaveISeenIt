@@ -22,6 +22,9 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE id = :id")
     fun loadPersonById(id: Int): User?
 
+    @Query("SELECT * FROM users WHERE email = :email")
+    fun loadPersonByEmail(email: String): User?
+
     @Transaction
     @Query("SELECT * FROM users")
     fun getUsersWithMovies(): List<UserWithMovies>

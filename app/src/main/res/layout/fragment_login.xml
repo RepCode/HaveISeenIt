@@ -109,4 +109,16 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.15" />
 
+    <TextView
+        android:id="@+id/login_failed_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_failed_message"
+        android:textColor="@color/redColor"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/login_email_input"
+        app:layout_constraintEnd_toStartOf="@+id/login_right_guideline"
+        app:layout_constraintStart_toStartOf="@+id/login_left_guideline"
+        app:layout_constraintTop_toTopOf="@+id/login_top_guideline" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
