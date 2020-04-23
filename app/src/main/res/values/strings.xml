@@ -15,9 +15,16 @@
     <string name="username_placeholder">Nombre de Usuario</string>
     <string name="repeat_password_placeholder">Repetir Contraseña</string>
     <string name="create_account_submit">Lets Go!</string>
+    <string name="username_missing_message">Debe ingresar su nombre</string>
     <string name="login_link_text">
         <u>Ir a Login</u>
     </string>
     <string name="hello_blank_fragment">TODO</string>
-
+    <string name="password_mismatch_message">Las contraseñas no coinciden</string>
+    <!--   Forms   -->
+    <string name="email_missing_message">Debe ingresar un email</string>
+    <string name="password_missing_message">Debe ingresar una contraseña</string>
+    <string name="text_input_missing_default_message">Este campo es obligatorio</string>
+    <string name="email_error_message">Este no es un email válido</string>
+    <string name="password_error_message">la contraseña debe tener entre 5 y 10 caracteres y contener un número</string>
 </resources>
