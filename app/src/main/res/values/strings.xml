@@ -31,4 +31,5 @@
     <string name="password_error_message">la contraseña debe tener entre 5 y 10 caracteres y contener un número</string>
     <!--  Movies List  -->
     <string name="no_movies_added">Todavía no has agregado ninguna películas.\n\n Presiona en + para comenzar!</string>
+    <string name="search">Buscar</string>
 </resources>

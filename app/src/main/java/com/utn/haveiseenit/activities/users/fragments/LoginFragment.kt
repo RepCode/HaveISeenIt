@@ -1,5 +1,6 @@
 package com.utn.haveiseenit.activities.users.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +11,8 @@ import android.widget.TextView
 import androidx.navigation.findNavController
 
 import com.utn.haveiseenit.R
+import com.utn.haveiseenit.activities.movies.MoviesActivity
+import com.utn.haveiseenit.activities.users.UserActivity
 import com.utn.haveiseenit.database.appDatabase
 import com.utn.haveiseenit.forms.Form
 import com.utn.haveiseenit.services.UserAuthentication
@@ -59,7 +62,8 @@ class Login : Fragment() {
                 loginForm.getValue("password")
             ) { _, error ->
                 if (error == null) {
-                    v.findNavController().navigate(LoginDirections.actionLoginToMovieNavigation())
+                    startActivity(Intent(activity, MoviesActivity::class.java))
+                    requireActivity().finish()
                     v.findViewById<TextView>(R.id.login_failed_text).visibility = View.INVISIBLE
                 } else {
                     v.findViewById<TextView>(R.id.login_failed_text).visibility = View.VISIBLE
