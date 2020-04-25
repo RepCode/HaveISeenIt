@@ -6,4 +6,9 @@
     <color name="colorLightBlue">#038FCE</color>
     <color name="colorGrey">#7E7E7E</color>
     <color name="redColor">#d91a1a</color>
+    <color name="yellowColor">#d9be14</color>
+    <color name="orangeColor">#d97b00</color>
+    <color name="greenColor">#1e8c0d</color>
+    <color name="chillRedColor">#8f290a</color>
+    <color name="blueColor">#06669e</color>
 </resources>

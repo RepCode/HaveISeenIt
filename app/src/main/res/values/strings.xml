@@ -32,4 +32,12 @@
     <!--  Movies List  -->
     <string name="no_movies_added">Todavía no has agregado ninguna películas.\n\n Presiona en + para comenzar!</string>
     <string name="search">Buscar</string>
+    <string name="list_director">Director: %1$s</string>
+    <string name="list_rating">Mi puntuación: %1$.1f</string>
+    <string name="movie_status_to_watch">PARA VER</string>
+    <string name="movie_status_started">EMPEZADA</string>
+    <string name="movie_status_seen">VISTA</string>
+    <string name="movie_status_in_review">REVIEW DRAFT</string>
+    <string name="movie_status_reviewed">REVIEWED</string>
+
 </resources>
