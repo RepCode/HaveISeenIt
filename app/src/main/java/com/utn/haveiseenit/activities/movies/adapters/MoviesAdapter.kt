@@ -1,6 +1,7 @@
 package com.utn.haveiseenit.activities.movies.adapters
 
 import android.graphics.ColorFilter
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,27 +62,32 @@ class MoviesAdapter(private val movies: List<Movie>) :
             MovieStatuses.pending -> {
                 textView.text =
                     context.getString(R.string.movie_status_to_watch)
-                textView.setBackgroundColor(context.getColor(R.color.yellowColor))
+                val drawable = textView.background as GradientDrawable
+                drawable.setColor(context.getColor(R.color.yellowColor));
             }
             MovieStatuses.started -> {
                 textView.text =
                     context.getString(R.string.movie_status_started)
-                textView.setBackgroundColor(context.getColor(R.color.orangeColor))
+                val drawable = textView.background as GradientDrawable
+                drawable.setColor(context.getColor(R.color.orangeColor));
             }
             MovieStatuses.seen -> {
                 textView.text =
                     context.getString(R.string.movie_status_seen)
-                textView.setBackgroundColor(context.getColor(R.color.greenColor))
+                val drawable = textView.background as GradientDrawable
+                drawable.setColor(context.getColor(R.color.greenColor));
             }
             MovieStatuses.inReview -> {
                 textView.text =
                     context.getString(R.string.movie_status_in_review)
-                textView.setBackgroundColor(context.getColor(R.color.chillRedColor))
+                val drawable = textView.background as GradientDrawable
+                drawable.setColor(context.getColor(R.color.chillRedColor));
             }
             MovieStatuses.reviewed -> {
                 textView.text =
                     context.getString(R.string.movie_status_reviewed)
-                textView.setBackgroundColor(context.getColor(R.color.blueColor))
+                val drawable = textView.background as GradientDrawable
+                drawable.setColor(context.getColor(R.color.blueColor));
             }
         }
         textView.text
