@@ -2,8 +2,10 @@ package com.utn.haveiseenit.activities.movies.fragments
 
 import android.os.Bundle
 import android.view.*
+import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -49,11 +51,14 @@ class MoviesListFragment : Fragment() {
                 adapter = viewAdapter
             }
         })
+        activity?.findViewById<AutoCompleteTextView>(R.id.search_autocomplete)?.visibility =
+            View.VISIBLE
         return v
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.empty_toolbar, menu)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         super.onCreateOptionsMenu(menu, inflater)
     }
 }

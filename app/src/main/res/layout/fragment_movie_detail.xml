@@ -91,6 +91,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
+        android:maxLines="1"
         android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toTopOf="@+id/detail_duration_text"
         app:layout_constraintEnd_toEndOf="parent"
