@@ -3,7 +3,7 @@ package com.utn.haveiseenit.entities
 import androidx.room.*
 
 @Entity(tableName = "movies")
-data class Movie(
+data  class Movie(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     val id: Int,
@@ -21,6 +21,8 @@ data class Movie(
     val rating: Float,
     @ColumnInfo(name = "year")
     val year: Int,
+    @ColumnInfo(name = "durationMin")
+    val durationMin: Int,
     @ColumnInfo(name = "status")
     val status: String
 )
@@ -45,9 +47,9 @@ data class MovieWithNotes(
 )
 
 object MovieStatuses{
-    public val pending = "PENDING"
-    public val started = "STARTED"
-    public val seen = "SEEN"
-    public val inReview = "IN_REVIEW"
-    public val reviewed = "REVIEWED"
+    public const val pending = "PENDING"
+    public const val started = "STARTED"
+    public const val seen = "SEEN"
+    public const val inReview = "IN_REVIEW"
+    public const val reviewed = "REVIEWED"
 }

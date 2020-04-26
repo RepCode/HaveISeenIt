@@ -30,25 +30,25 @@
         android:paddingStart="5dp"
         android:paddingTop="10dp"
         android:paddingEnd="10dp"
-        android:theme="?attr/actionBarTheme"
+        app:theme="@style/ToolbarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/editText"
+        <AutoCompleteTextView
+            android:id="@+id/search_autocomplete"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorGrey"
             android:drawableEnd="@drawable/ic_search_grey_24dp"
             android:ems="10"
             android:hint="@string/search"
-            android:importantForAutofill="no"
-            android:inputType="text"
             android:padding="8dp"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorGrey"
             android:textSize="24sp"
+            android:popupBackground="@color/colorPrimary"
+            android:dropDownWidth="match_parent"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="2dp" />
     </androidx.appcompat.widget.Toolbar>

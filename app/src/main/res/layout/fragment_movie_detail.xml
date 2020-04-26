@@ -1,14 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context=".activities.movies.fragments.MovieDetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="saludos" />
 
-</FrameLayout>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/movie_detail_left_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.07" />
+
+    <ImageView
+        android:id="@+id/detail_poster_image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/poster_unavailable"
+        app:layout_constraintBottom_toTopOf="@+id/movie_detail_middle_horizontal_margin"
+        app:layout_constraintEnd_toStartOf="@+id/movie_detail_middle_vertical_margin"
+        app:layout_constraintStart_toStartOf="@+id/movie_detail_left_margin"
+        app:layout_constraintTop_toTopOf="@+id/movie_detail_top_margin"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/movie_detail_top_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/movie_detail_middle_horizontal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.3" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/movie_detail_middle_vertical_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <TextView
+        android:id="@+id/detail_title_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:paddingEnd="20dp"
+        android:textColor="@color/colorWhite"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/detail_year_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/movie_detail_middle_vertical_margin"
+        app:layout_constraintTop_toTopOf="@+id/movie_detail_top_margin" />
+
+    <TextView
+        android:id="@+id/detail_year_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/year_text"
+        android:textColor="@color/colorGrey"
+        app:layout_constraintBottom_toTopOf="@+id/detail_director_text"
+        app:layout_constraintEnd_toStartOf="@+id/detail_year_text"
+        app:layout_constraintStart_toStartOf="@+id/movie_detail_middle_vertical_margin"
+        app:layout_constraintTop_toBottomOf="@+id/detail_title_text" />
+
+    <TextView
+        android:id="@+id/detail_year_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/detail_director_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detail_year_title"
+        app:layout_constraintTop_toBottomOf="@+id/detail_title_text" />
+
+    <TextView
+        android:id="@+id/detail_director_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/detail_duration_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detail_director_title"
+        app:layout_constraintTop_toBottomOf="@+id/detail_year_text" />
+
+    <TextView
+        android:id="@+id/detail_director_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/director_text"
+        android:textColor="@color/colorGrey"
+        app:layout_constraintBottom_toTopOf="@+id/detail_duration_text"
+        app:layout_constraintEnd_toStartOf="@+id/detail_director_text"
+        app:layout_constraintStart_toStartOf="@+id/movie_detail_middle_vertical_margin"
+        app:layout_constraintTop_toBottomOf="@+id/detail_year_text" />
+
+    <TextView
+        android:id="@+id/detail_duration_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toTopOf="@+id/movie_detail_middle_horizontal_margin"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/detail_duration_title"
+        app:layout_constraintTop_toBottomOf="@+id/detail_director_text" />
+
+    <TextView
+        android:id="@+id/detail_duration_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/duration_text"
+        android:textColor="@color/colorGrey"
+        app:layout_constraintBottom_toTopOf="@+id/movie_detail_middle_horizontal_margin"
+        app:layout_constraintEnd_toStartOf="@+id/detail_duration_text"
+        app:layout_constraintStart_toStartOf="@+id/movie_detail_middle_vertical_margin"
+        app:layout_constraintTop_toBottomOf="@+id/detail_director_text" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

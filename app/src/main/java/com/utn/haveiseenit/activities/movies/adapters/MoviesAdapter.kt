@@ -1,31 +1,23 @@
 package com.utn.haveiseenit.activities.movies.adapters
 
-import android.graphics.ColorFilter
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import com.utn.haveiseenit.R
+import com.utn.haveiseenit.activities.movies.viewModels.MovieView
 import com.utn.haveiseenit.entities.Movie
 import com.utn.haveiseenit.entities.MovieStatuses
 
-class MoviesAdapter(private val movies: List<Movie>) :
+class MoviesAdapter(private val movies: List<MovieView>, val adapterOnClick: (Int) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
     class MoviesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         private val posterImage: ImageView = view.findViewById(R.id.list_poster_image)
-
-        fun updateWithUrl(url: String) {
-            val picasso = Picasso.get()
-            picasso.load("https://image.tmdb.org/t/p/w92$url")
-                .placeholder(R.drawable.poster_unavailable)
-                .error(R.drawable.poster_unavailable)
-                .into(posterImage)
-        }
     }
 
 
@@ -40,19 +32,24 @@ class MoviesAdapter(private val movies: List<Movie>) :
     }
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
+        movies[position].loadPoster(holder.view.context) { drawable ->
+            holder.view.findViewById<ImageView>(R.id.list_poster_image).setImageDrawable(drawable)
+        }
         val titleText =
-            if (movies[position].title.length > 45) ("${movies[position].title.substring(
+            if (movies[position].movie.title.length > 45) ("${movies[position].movie.title.substring(
                 0,
                 35
-            )}...") else movies[position].title
+            )}...") else movies[position].movie.title
         holder.view.findViewById<TextView>(R.id.list_title_text).text =
-            "$titleText (${movies[position].year})"
+            "$titleText (${movies[position].movie.year})"
         holder.view.findViewById<TextView>(R.id.list_director_text).text =
-            holder.view.context.getString(R.string.list_director, movies[position].director)
+            holder.view.context.getString(R.string.list_director, movies[position].movie.director)
         holder.view.findViewById<TextView>(R.id.list_score_text).text =
-            holder.view.context.getString(R.string.list_rating, movies[position].rating)
-        setStatus(holder, movies[position].status)
-        holder.updateWithUrl(movies[position].imageURL)
+            holder.view.context.getString(R.string.list_rating, movies[position].movie.rating)
+        setStatus(holder, movies[position].movie.status)
+        holder.view.findViewById<CardView>(R.id.movie_card).setOnClickListener {
+            adapterOnClick(position)
+        }
     }
 
     private fun setStatus(holder: MoviesViewHolder, state: String) {

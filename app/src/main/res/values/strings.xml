@@ -39,5 +39,8 @@
     <string name="movie_status_seen">VISTA</string>
     <string name="movie_status_in_review">REVIEW DRAFT</string>
     <string name="movie_status_reviewed">REVIEWED</string>
-
+    <!--  Movie Detail  -->
+    <string name="year_text">Año:&#160;</string>
+    <string name="director_text">Director:&#160;</string>
+    <string name="duration_text">Duración:&#160;</string>
 </resources>

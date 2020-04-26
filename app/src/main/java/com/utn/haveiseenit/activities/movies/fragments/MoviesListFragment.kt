@@ -7,10 +7,12 @@ import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.adapters.MoviesAdapter
+import com.utn.haveiseenit.activities.movies.viewModels.MovieView
 import com.utn.haveiseenit.activities.movies.viewModels.MovieViewModel
 import com.utn.haveiseenit.entities.Movie
 
@@ -32,9 +34,13 @@ class MoviesListFragment : Fragment() {
         setHasOptionsMenu(true)
         v = inflater.inflate(R.layout.fragment_movies_list, container, false)
         val movieViewModel: MovieViewModel by viewModels()
-        movieViewModel.getUsers().observe(requireActivity(), Observer<List<Movie>> { movies ->
+        movieViewModel.getUsers().observe(requireActivity(), Observer<List<MovieView>> { movies ->
             viewManager = LinearLayoutManager(context)
-            viewAdapter = MoviesAdapter(movies)
+            viewAdapter = MoviesAdapter(movies) { position->
+                v.findNavController().navigate(
+                    MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailFragment(position)
+                )
+            }
             if (movies.isNotEmpty()) {
                 v.findViewById<TextView>(R.id.empty_list_message).visibility = View.INVISIBLE
             }
