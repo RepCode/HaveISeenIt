@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,10 +12,11 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.utn.haveiseenit.R
+import com.utn.haveiseenit.activities.movies.ToolbarEvents
 import com.utn.haveiseenit.activities.movies.adapters.MoviesAdapter
 import com.utn.haveiseenit.activities.movies.viewModels.MovieView
 import com.utn.haveiseenit.activities.movies.viewModels.MovieViewModel
-import com.utn.haveiseenit.entities.Movie
+import com.utn.haveiseenit.services.MovieResponse
 
 class MoviesListFragment : Fragment() {
     private lateinit var v: View
@@ -38,9 +38,11 @@ class MoviesListFragment : Fragment() {
         val movieViewModel: MovieViewModel by viewModels()
         movieViewModel.getUsers().observe(requireActivity(), Observer<List<MovieView>> { movies ->
             viewManager = LinearLayoutManager(context)
-            viewAdapter = MoviesAdapter(movies) { position->
+            viewAdapter = MoviesAdapter(movies) { position ->
                 v.findNavController().navigate(
-                    MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailFragment(position)
+                    MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailFragment(
+                        position
+                    )
                 )
             }
             if (movies.isNotEmpty()) {
@@ -53,6 +55,12 @@ class MoviesListFragment : Fragment() {
         })
         activity?.findViewById<AutoCompleteTextView>(R.id.search_autocomplete)?.visibility =
             View.VISIBLE
+
+        (activity as ToolbarEvents).onSearchItemSelected = { movie: MovieResponse ->
+            v.findNavController().navigate(
+                MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailFragment(1)
+            )
+        }
         return v
     }
 

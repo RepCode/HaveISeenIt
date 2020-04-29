@@ -1,14 +1,17 @@
 package com.utn.haveiseenit.activities.movies
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.KeyEvent
 import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.Filter
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import com.utn.haveiseenit.R
+import com.utn.haveiseenit.activities.movies.fragments.MoviesListFragment
+import com.utn.haveiseenit.activities.movies.fragments.MoviesListFragmentDirections
 import com.utn.haveiseenit.services.APIService
+import com.utn.haveiseenit.services.MovieResponse
 import com.utn.haveiseenit.services.MoviesSearchResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -16,9 +19,10 @@ import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MoviesActivity : AppCompatActivity() {
+
+class MoviesActivity : AppCompatActivity(), ToolbarEvents {
     lateinit var acTextView: AutoCompleteTextView
-    var suggestions: List<String> = ArrayList()
+    var movies: List<MovieResponse> = ArrayList()
     private lateinit var adapter: ArrayAdapter<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,18 +30,26 @@ class MoviesActivity : AppCompatActivity() {
 
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        adapter = ArrayAdapter<String>(this, R.layout.search_suggestion_item, suggestions)
+        adapter = ArrayAdapter(this, R.layout.search_suggestion_item, listOf())
         acTextView = findViewById(R.id.search_autocomplete)
         acTextView.threshold = 1
         acTextView.setAdapter(adapter)
-        acTextView.setOnKeyListener{ view: View, i: Int, keyEvent: KeyEvent ->
+        acTextView.setOnKeyListener { _, _, _ ->
             val char = acTextView.text.lastOrNull()
-            if(char != null && char == ' '){
+            if (char != null && char == ' ') {
                 searchByName(acTextView.text.toString())
             }
             false
         }
+        acTextView.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+            val selected = adapterView.getItemAtPosition(i) as String
+            val movie = movies.first { it.title == selected }
+
+            onSearchItemSelected(movie)
+        }
     }
+
+    override var onSearchItemSelected = { _: MovieResponse -> Unit }
 
     private fun getRetrofit(): Retrofit {
         return Retrofit.Builder()
@@ -45,16 +57,24 @@ class MoviesActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
+
     private fun searchByName(query: String) {
         GlobalScope.launch(Dispatchers.Default) {
-            val call = getRetrofit().create(APIService::class.java).getMoviesByKeyword("movie?api_key=486d247609821da0b98bb27f87b76be3&query=\"$query\"").execute()
+            val call = getRetrofit().create(APIService::class.java)
+                .getMoviesByKeyword("movie?api_key=486d247609821da0b98bb27f87b76be3&query=\"$query\"")
+                .execute()
             val response = call.body() as MoviesSearchResponse
             launch(Dispatchers.Main) {
-                suggestions = response.results.map { it.title }
+                movies = response.results
                 adapter.clear()
-                adapter.addAll(suggestions)
+                adapter.addAll(movies.map { it.title })
                 adapter.notifyDataSetChanged()
+                acTextView.showDropDown()
             }
         }
     }
+}
+
+interface ToolbarEvents {
+    var onSearchItemSelected: (MovieResponse) -> Unit
 }

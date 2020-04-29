@@ -47,6 +47,7 @@
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorGrey"
             android:textSize="24sp"
+            android:inputType="text"
             android:popupBackground="@color/colorPrimary"
             android:dropDownWidth="match_parent"
             tools:layout_editor_absoluteX="16dp"
