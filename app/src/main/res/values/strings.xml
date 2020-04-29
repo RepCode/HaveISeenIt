@@ -43,4 +43,6 @@
     <string name="year_text">Año:&#160;</string>
     <string name="director_text">Director:&#160;</string>
     <string name="duration_text">Duración:&#160;</string>
+    <string name="my_score_text">Mi Puntuación</string>
+    <string name="state_text">Estado:</string>
 </resources>

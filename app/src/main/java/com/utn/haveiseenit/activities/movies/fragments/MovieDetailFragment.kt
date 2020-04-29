@@ -1,5 +1,6 @@
 package com.utn.haveiseenit.activities.movies.fragments
 
+import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import android.view.*
 import android.widget.AutoCompleteTextView
@@ -19,6 +20,7 @@ import com.utn.haveiseenit.activities.movies.adapters.MoviesAdapter
 import com.utn.haveiseenit.activities.movies.viewModels.MovieView
 import com.utn.haveiseenit.activities.movies.viewModels.MovieViewModel
 import com.utn.haveiseenit.entities.Movie
+import com.utn.haveiseenit.entities.MovieStatuses
 import kotlin.properties.Delegates
 
 class MovieDetailFragment : Fragment() {
@@ -44,6 +46,40 @@ class MovieDetailFragment : Fragment() {
             v.findViewById<TextView>(R.id.detail_year_text).text = movieView.movie.year.toString()
             v.findViewById<TextView>(R.id.detail_director_text).text = movieView.movie.director
             v.findViewById<TextView>(R.id.detail_duration_text).text = movieView.movie.durationMin.toString() + " min"
+            v.findViewById<TextView>(R.id.detail_score_text).text = movieView.movie.rating.toString()
+            val textView = v.findViewById<TextView>(R.id.detail_status_text)
+            when (movieView.movie.status) {
+                MovieStatuses.pending -> {
+                    textView.text =
+                        getString(R.string.movie_status_to_watch)
+                    val drawable = textView.background as GradientDrawable
+                    drawable.setColor(v.context.getColor(R.color.yellowColor));
+                }
+                MovieStatuses.started -> {
+                    textView.text =
+                        getString(R.string.movie_status_started)
+                    val drawable = textView.background as GradientDrawable
+                    drawable.setColor(v.context.getColor(R.color.orangeColor));
+                }
+                MovieStatuses.seen -> {
+                    textView.text =
+                        getString(R.string.movie_status_seen)
+                    val drawable = textView.background as GradientDrawable
+                    drawable.setColor(v.context.getColor(R.color.greenColor));
+                }
+                MovieStatuses.inReview -> {
+                    textView.text =
+                        getString(R.string.movie_status_in_review)
+                    val drawable = textView.background as GradientDrawable
+                    drawable.setColor(v.context.getColor(R.color.chillRedColor));
+                }
+                MovieStatuses.reviewed -> {
+                    textView.text =
+                        getString(R.string.movie_status_reviewed)
+                    val drawable = textView.background as GradientDrawable
+                    drawable.setColor(v.context.getColor(R.color.blueColor));
+                }
+            }
             movieView.loadPoster(v.context) { drawable ->
                 v.findViewById<ImageView>(R.id.detail_poster_image).setImageDrawable(drawable)
             }

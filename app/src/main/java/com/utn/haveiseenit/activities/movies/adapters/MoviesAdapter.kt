@@ -87,7 +87,6 @@ class MoviesAdapter(private val movies: List<MovieView>, val adapterOnClick: (In
                 drawable.setColor(context.getColor(R.color.blueColor));
             }
         }
-        textView.text
     }
 
     override fun getItemCount() = movies.size
