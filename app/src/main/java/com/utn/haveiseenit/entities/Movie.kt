@@ -18,7 +18,7 @@ data  class Movie(
     @ColumnInfo(name = "director")
     val director: String,
     @ColumnInfo(name = "rating")
-    val rating: Float,
+    val rating: Float?,
     @ColumnInfo(name = "year")
     val year: Int,
     @ColumnInfo(name = "durationMin")

@@ -12,16 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 
 import com.utn.haveiseenit.R
-import com.utn.haveiseenit.activities.movies.adapters.MoviesAdapter
 import com.utn.haveiseenit.activities.movies.viewModels.MovieView
 import com.utn.haveiseenit.activities.movies.viewModels.MovieViewModel
-import com.utn.haveiseenit.entities.Movie
 import com.utn.haveiseenit.entities.MovieStatuses
-import kotlin.properties.Delegates
 
 class MovieDetailFragment : Fragment() {
     private lateinit var v: View
@@ -40,7 +35,7 @@ class MovieDetailFragment : Fragment() {
         val position = MovieDetailFragmentArgs.fromBundle(requireArguments()).position
         v = inflater.inflate(R.layout.fragment_movie_detail, container, false)
         val movieViewModel: MovieViewModel by viewModels()
-        movieViewModel.getUsers().observe(requireActivity(), Observer<List<MovieView>> { movies ->
+        movieViewModel.getMovies().observe(requireActivity(), Observer<List<MovieView>> { movies ->
             movieView = movies[position]
             v.findViewById<TextView>(R.id.detail_title_text).text = movieView.movie.title
             v.findViewById<TextView>(R.id.detail_year_text).text = movieView.movie.year.toString()

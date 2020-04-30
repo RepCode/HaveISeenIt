@@ -11,6 +11,7 @@ class UserAuthentication(private val userDao: UserDao) {
         callback: (user: User?, error: AuthenticationError?) -> Unit
     ) {
         val result = authenticateUser(email, password)
+        ApplicationUser.userId = result.first?.id
         callback(result.first, result.second)
     }
 
@@ -52,4 +53,8 @@ class UserAuthentication(private val userDao: UserDao) {
             return message
         }
     }
+}
+
+object ApplicationUser{
+    var userId: Int? = null
 }

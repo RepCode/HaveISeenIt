@@ -1,22 +1,24 @@
 package com.utn.haveiseenit.activities.movies.viewModels
 
+import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import coil.Coil
 import coil.request.LoadRequest
+import com.utn.haveiseenit.database.MovieDao
+import com.utn.haveiseenit.database.appDatabase
 import com.utn.haveiseenit.entities.Movie
 
-class MovieViewModel : ViewModel() {
+class MovieViewModel(application: Application) : AndroidViewModel(application) {
+    var movieDao: MovieDao = appDatabase.getAppDataBase(application)!!.movieDao()
+
     private val movies: MutableLiveData<List<MovieView>> by lazy {
         MutableLiveData<List<MovieView>>().also {
         }
     }
 
-    fun getUsers(): LiveData<List<MovieView>> {
+    fun getMovies(): LiveData<List<MovieView>> {
         if (movies.value.isNullOrEmpty()) {
             loadMovies()
         }
@@ -24,74 +26,11 @@ class MovieViewModel : ViewModel() {
     }
 
     private fun loadMovies() {
-        movies.value = mutableListOf(
-            MovieView(
-                Movie(
-                    1,
-                    1,
-                    1,
-                    "/oqhuGSl6gp22rIRo52IouPhV4hl.jpg",
-                    "Fight Club",
-                    "David Fincher",
-                    8.9f,
-                    1999 as Int,
-                    120,
-                    "PENDING"
-                )
-            ), MovieView(
-                Movie(
-                    1,
-                    1,
-                    1,
-                    "/cvvF42ALBMJMNFQvB5y9L9FTnI7.jpg",
-                    "Oldboy",
-                    "Chan-wook Park",
-                    10f,
-                    2003 as Int,
-                    120,
-                    "SEEN"
-                )
-            ), MovieView(
-                Movie(
-                    1,
-                    1,
-                    1,
-                    "/469mCKwBK7LUWoKoXjf1LaMnu9I.jpg",
-                    "American Psycho",
-                    "Mary Harron",
-                    7.9f,
-                    2000 as Int,
-                    120,
-                    "IN_REVIEW"
-                )
-            ), MovieView(
-                Movie(
-                    1,
-                    1,
-                    1,
-                    "/aJCpHDC6RoGz7d1Fzayl019xnxX.jpg",
-                    "Die Hard",
-                    "John McTiernan",
-                    8.9f,
-                    1988 as Int,
-                    120,
-                    "REVIEWED"
-                )
-            ), MovieView(
-                Movie(
-                    1,
-                    1,
-                    1,
-                    "/7ANTfqz1sWpa08y7D2dZnI88Hd2.jpg",
-                    "Se7en",
-                    "David Fincher",
-                    9.5f,
-                    1995 as Int,
-                    120,
-                    "STARTED"
-                )
-            )
-        )
+        val movieList = mutableListOf<MovieView>()
+        movieDao.loadAllMovies()?.forEach { it->
+            movieList.add(MovieView(it!!))
+        }
+        movies.value = movieList
     }
 }
 

@@ -13,6 +13,7 @@ import com.utn.haveiseenit.activities.movies.fragments.MoviesListFragmentDirecti
 import com.utn.haveiseenit.services.APIService
 import com.utn.haveiseenit.services.MovieResponse
 import com.utn.haveiseenit.services.MoviesSearchResponse
+import com.utn.haveiseenit.services.getRetrofit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -41,7 +42,7 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
             }
             false
         }
-        acTextView.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
+        acTextView.setOnItemClickListener { adapterView: AdapterView<*>, _: View, i: Int, _: Long ->
             val selected = adapterView.getItemAtPosition(i) as String
             val movie = movies.first { it.title == selected }
 
@@ -51,17 +52,10 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
 
     override var onSearchItemSelected = { _: MovieResponse -> Unit }
 
-    private fun getRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/search/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }
-
     private fun searchByName(query: String) {
         GlobalScope.launch(Dispatchers.Default) {
             val call = getRetrofit().create(APIService::class.java)
-                .getMoviesByKeyword("movie?api_key=486d247609821da0b98bb27f87b76be3&query=\"$query\"")
+                .getMoviesByKeyword("search/movie?api_key=486d247609821da0b98bb27f87b76be3&query=\"$query\"")
                 .execute()
             val response = call.body() as MoviesSearchResponse
             launch(Dispatchers.Main) {
@@ -69,7 +63,6 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
                 adapter.clear()
                 adapter.addAll(movies.map { it.title })
                 adapter.notifyDataSetChanged()
-                acTextView.showDropDown()
             }
         }
     }

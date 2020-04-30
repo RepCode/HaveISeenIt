@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
 import androidx.navigation.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -15,7 +14,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.database.UserDao
 import com.utn.haveiseenit.database.appDatabase
-import com.utn.haveiseenit.entities.User
 import com.utn.haveiseenit.forms.Form
 import com.utn.haveiseenit.services.UserAuthentication
 

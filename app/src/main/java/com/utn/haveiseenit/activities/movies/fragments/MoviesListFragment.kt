@@ -1,7 +1,9 @@
 package com.utn.haveiseenit.activities.movies.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +18,8 @@ import com.utn.haveiseenit.activities.movies.ToolbarEvents
 import com.utn.haveiseenit.activities.movies.adapters.MoviesAdapter
 import com.utn.haveiseenit.activities.movies.viewModels.MovieView
 import com.utn.haveiseenit.activities.movies.viewModels.MovieViewModel
+import com.utn.haveiseenit.database.MovieDao
+import com.utn.haveiseenit.database.appDatabase
 import com.utn.haveiseenit.services.MovieResponse
 
 class MoviesListFragment : Fragment() {
@@ -34,9 +38,10 @@ class MoviesListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
+
         v = inflater.inflate(R.layout.fragment_movies_list, container, false)
         val movieViewModel: MovieViewModel by viewModels()
-        movieViewModel.getUsers().observe(requireActivity(), Observer<List<MovieView>> { movies ->
+        movieViewModel.getMovies().observe(requireActivity(), Observer<List<MovieView>> { movies ->
             viewManager = LinearLayoutManager(context)
             viewAdapter = MoviesAdapter(movies) { position ->
                 v.findNavController().navigate(
@@ -57,8 +62,10 @@ class MoviesListFragment : Fragment() {
             View.VISIBLE
 
         (activity as ToolbarEvents).onSearchItemSelected = { movie: MovieResponse ->
+            val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(v.windowToken, 0)
             v.findNavController().navigate(
-                MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailFragment(1)
+                MoviesListFragmentDirections.actionMoviesListFragmentToNewMovieFragment(movie)
             )
         }
         return v

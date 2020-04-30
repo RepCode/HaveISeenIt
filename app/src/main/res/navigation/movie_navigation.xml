@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_moviesListFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_moviesListFragment_to_newMovieFragment"
+            app:destination="@id/newMovieFragment" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailFragment"
@@ -25,5 +28,17 @@
         <argument
             android:name="position"
             app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/newMovieFragment"
+        android:name="com.utn.haveiseenit.activities.movies.fragments.NewMovieFragment"
+        android:label="fragment_new_movie"
+        tools:layout="@layout/fragment_new_movie" >
+        <action
+            android:id="@+id/action_newMovieFragment_to_moviesListFragment"
+            app:destination="@id/moviesListFragment" />
+        <argument
+            android:name="movie"
+            app:argType="com.utn.haveiseenit.services.MovieResponse" />
     </fragment>
 </navigation>
