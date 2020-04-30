@@ -41,7 +41,7 @@ class MovieDetailFragment : Fragment() {
             v.findViewById<TextView>(R.id.detail_year_text).text = movieView.movie.year.toString()
             v.findViewById<TextView>(R.id.detail_director_text).text = movieView.movie.director
             v.findViewById<TextView>(R.id.detail_duration_text).text = movieView.movie.durationMin.toString() + " min"
-            v.findViewById<TextView>(R.id.detail_score_text).text = movieView.movie.rating.toString()
+            v.findViewById<TextView>(R.id.detail_score_text).text = if(movieView.movie.rating == null) "-" else movieView.movie.rating.toString()
             val textView = v.findViewById<TextView>(R.id.detail_status_text)
             when (movieView.movie.status) {
                 MovieStatuses.pending -> {

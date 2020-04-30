@@ -44,8 +44,13 @@ class MoviesAdapter(private val movies: List<MovieView>, val adapterOnClick: (In
             "$titleText (${movies[position].movie.year})"
         holder.view.findViewById<TextView>(R.id.list_director_text).text =
             holder.view.context.getString(R.string.list_director, movies[position].movie.director)
-        holder.view.findViewById<TextView>(R.id.list_score_text).text =
-            holder.view.context.getString(R.string.list_rating, movies[position].movie.rating)
+        val rating = movies[position].movie.rating
+        if(rating == null){
+            holder.view.findViewById<TextView>(R.id.list_score_text).visibility = View.INVISIBLE
+        } else{
+            holder.view.findViewById<TextView>(R.id.list_score_text).text =
+                holder.view.context.getString(R.string.list_rating, rating)
+        }
         setStatus(holder, movies[position].movie.status)
         holder.view.findViewById<CardView>(R.id.movie_card).setOnClickListener {
             adapterOnClick(position)

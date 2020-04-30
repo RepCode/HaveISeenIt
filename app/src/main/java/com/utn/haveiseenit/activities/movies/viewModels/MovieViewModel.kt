@@ -9,6 +9,7 @@ import coil.request.LoadRequest
 import com.utn.haveiseenit.database.MovieDao
 import com.utn.haveiseenit.database.appDatabase
 import com.utn.haveiseenit.entities.Movie
+import com.utn.haveiseenit.services.ApplicationUser
 
 class MovieViewModel(application: Application) : AndroidViewModel(application) {
     var movieDao: MovieDao = appDatabase.getAppDataBase(application)!!.movieDao()
@@ -27,7 +28,7 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun loadMovies() {
         val movieList = mutableListOf<MovieView>()
-        movieDao.loadAllMovies()?.forEach { it->
+        movieDao.loadUserMovies(ApplicationUser.userId!!)?.forEach { it->
             movieList.add(MovieView(it!!))
         }
         movies.value = movieList
