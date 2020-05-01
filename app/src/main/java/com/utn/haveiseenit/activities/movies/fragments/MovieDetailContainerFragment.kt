@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -87,5 +89,17 @@ class MovieDetailContainerFragment : Fragment() {
         }
 
         return v
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                v.findNavController().navigate(
+                    MovieDetailContainerFragmentDirections.actionMovieDetailContainerFragmentToMoviesListFragment()
+                )
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(callback)
+        super.onCreate(savedInstanceState)
     }
 }
