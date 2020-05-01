@@ -1,12 +1,20 @@
 package com.utn.haveiseenit.activities.movies.fragments
 
+import android.app.Activity
+import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
+import android.text.InputFilter
+import android.text.InputType
+import android.text.Spanned
 import android.view.*
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -53,6 +61,9 @@ class MovieDetailFragment(private val position: Int) : Fragment() {
             v.findViewById<ImageView>(R.id.edit_state).setOnClickListener {
                 changeMovieState()
             }
+            v.findViewById<ImageView>(R.id.edit_score).setOnClickListener {
+                changeMovieScore()
+            }
         })
         return v
     }
@@ -93,6 +104,14 @@ class MovieDetailFragment(private val position: Int) : Fragment() {
         builder.show()
     }
 
+    private fun changeMovieScore() {
+        val editText = v.findViewById<EditText>(R.id.detail_score_text)
+        editText.setText("")
+        editText.filters = arrayOf<InputFilter>(InputFilterMinMax(0.0F, 10.0F))
+        editText.isEnabled = true
+        editText.requestFocus()
+    }
+
     private fun setStatus(status: String) {
         when (status) {
             MovieStatuses.pending -> {
@@ -125,6 +144,45 @@ class MovieDetailFragment(private val position: Int) : Fragment() {
                 val drawable = textView.background as GradientDrawable
                 drawable.setColor(v.context.getColor(R.color.blueColor));
             }
+        }
+    }
+
+    class InputFilterMinMax(min: Float, max: Float) : InputFilter {
+        private var min: Float = 0.0F
+        private var max: Float = 0.0F
+
+        init {
+            this.min = min
+            this.max = max
+        }
+
+        override fun filter(
+            source: CharSequence,
+            start: Int,
+            end: Int,
+            dest: Spanned,
+            dstart: Int,
+            dend: Int
+        ): CharSequence? {
+            try {
+                val input = (dest.subSequence(0, dstart).toString() + source + dest.subSequence(
+                    dend,
+                    dest.length
+                ))
+                if (isInRange(min, max, input.toFloat()) && validDecimalPlace(input))
+                    return null
+            } catch (nfe: NumberFormatException) {
+            }
+            return ""
+        }
+
+        private fun isInRange(a: Float, b: Float, c: Float): Boolean {
+            return if (b > a) c in a..b else c in b..a
+        }
+
+        private fun validDecimalPlace(a: String): Boolean {
+            val decimalPlace = a.split('.').getOrNull(index = 1)
+            return if (decimalPlace == null) true else decimalPlace.length < 2
         }
     }
 }
