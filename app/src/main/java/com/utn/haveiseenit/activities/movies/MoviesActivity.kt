@@ -1,6 +1,8 @@
 package com.utn.haveiseenit.activities.movies
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -35,13 +37,21 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
         acTextView = findViewById(R.id.search_autocomplete)
         acTextView.threshold = 1
         acTextView.setAdapter(adapter)
-        acTextView.setOnKeyListener { _, _, _ ->
-            val char = acTextView.text.lastOrNull()
-            if (char != null && char == ' ') {
-                searchByName(acTextView.text.toString())
+        acTextView.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
             }
-            false
-        }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                val char = acTextView.text.lastOrNull()
+                if (char != null && char == ' ') {
+                    searchByName(acTextView.text.toString())
+                }
+                false
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
         acTextView.setOnItemClickListener { adapterView: AdapterView<*>, _: View, i: Int, _: Long ->
             val selected = adapterView.getItemAtPosition(i) as String
             val movie = movies.first { it.title == selected }

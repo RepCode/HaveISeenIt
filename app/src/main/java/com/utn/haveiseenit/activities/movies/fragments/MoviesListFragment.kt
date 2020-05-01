@@ -45,7 +45,7 @@ class MoviesListFragment : Fragment() {
             viewManager = LinearLayoutManager(context)
             viewAdapter = MoviesAdapter(movies) { position ->
                 v.findNavController().navigate(
-                    MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailFragment(
+                    MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailContainerFragment(
                         position
                     )
                 )

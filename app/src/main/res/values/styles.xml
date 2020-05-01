@@ -10,4 +10,11 @@
         <!-- Customize color of navigation drawer icon and back arrow -->
         <item name="colorControlNormal">#F1F1F1</item>
     </style>
+
+    <style name="Dialog" parent="@android:style/Theme.Material.Dialog">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="textColorAlertDialogListItem">@color/colorWhite</item>
+        <item name="android:headerDividersEnabled">true</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
 </resources>

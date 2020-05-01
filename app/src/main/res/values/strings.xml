@@ -40,11 +40,17 @@
     <string name="movie_status_in_review">REVIEW DRAFT</string>
     <string name="movie_status_reviewed">REVIEWED</string>
     <!--  Movie Detail  -->
+    <string name="tab_info">INFO</string>
+    <string name="tab_review">REVIEW</string>
+    <string name="tab_notes">NOTAS</string>
     <string name="year_text">Año:&#160;</string>
     <string name="director_text">Director:&#160;</string>
     <string name="duration_text">Duración:&#160;</string>
     <string name="my_score_text">Mi Puntuación</string>
     <string name="state_text">Estado:</string>
+    <string name="dialog_close">OK</string>
+    <string name="dialog_cancel">CANCEL</string>
+    <string name="dialog_title">Cambiar Estado</string>
     <!--  New Movie  -->
     <string name="add_to_my_library">Agregar a mi Biblioteca</string>
     <string name="movie_added_message">Película agregada tu biblioteca</string>

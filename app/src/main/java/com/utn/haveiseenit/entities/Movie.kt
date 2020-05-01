@@ -12,7 +12,7 @@ data  class Movie(
     @ColumnInfo(name = "tmdbId")
     val tmdbId: Long,
     @ColumnInfo(name = "imageURL")
-    val imageURL: String,
+    val imageURL: String?,
     @ColumnInfo(name = "title")
     val title: String,
     @ColumnInfo(name = "director")
@@ -24,7 +24,7 @@ data  class Movie(
     @ColumnInfo(name = "durationMin")
     val durationMin: Int,
     @ColumnInfo(name = "status")
-    val status: String
+    var status: String
 )
 
 class MovieAndReview(
@@ -47,9 +47,9 @@ data class MovieWithNotes(
 )
 
 object MovieStatuses{
-    public const val pending = "PENDING"
-    public const val started = "STARTED"
-    public const val seen = "SEEN"
-    public const val inReview = "IN_REVIEW"
-    public const val reviewed = "REVIEWED"
+    const val pending = "PENDING"
+    const val started = "STARTED"
+    const val seen = "SEEN"
+    const val inReview = "IN_REVIEW"
+    const val reviewed = "REVIEWED"
 }

@@ -33,6 +33,11 @@ class MovieViewModel(application: Application) : AndroidViewModel(application) {
         }
         movies.value = movieList
     }
+
+    fun updateMovieStatus(position: Int, status: String){
+        movies.value!![position].movie.status = status
+        movieDao.updateMovieStatus(movies.value!![position].movie.id, status)
+    }
 }
 
 class MovieView(val movie: Movie) {

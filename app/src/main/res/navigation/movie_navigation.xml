@@ -11,23 +11,11 @@
         android:label="fragment_movies_list"
         tools:layout="@layout/fragment_movies_list" >
         <action
-            android:id="@+id/action_moviesListFragment_to_movieDetailFragment"
-            app:destination="@id/movieDetailFragment" />
-        <action
             android:id="@+id/action_moviesListFragment_to_newMovieFragment"
             app:destination="@id/newMovieFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/movieDetailFragment"
-        android:name="com.utn.haveiseenit.activities.movies.fragments.MovieDetailFragment"
-        android:label="fragment_movie_detail"
-        tools:layout="@layout/fragment_movie_detail" >
         <action
-            android:id="@+id/action_movieDetailFragment_to_moviesListFragment"
-            app:destination="@id/moviesListFragment" />
-        <argument
-            android:name="position"
-            app:argType="integer" />
+            android:id="@+id/action_moviesListFragment_to_movieDetailContainerFragment"
+            app:destination="@id/movieDetailContainerFragment" />
     </fragment>
     <fragment
         android:id="@+id/newMovieFragment"
@@ -40,5 +28,17 @@
         <argument
             android:name="movie"
             app:argType="com.utn.haveiseenit.services.MovieResponse" />
+    </fragment>
+    <fragment
+        android:id="@+id/movieDetailContainerFragment"
+        android:name="com.utn.haveiseenit.activities.movies.fragments.MovieDetailContainerFragment"
+        android:label="fragment_movie_detail_container"
+        tools:layout="@layout/fragment_movie_detail_container" >
+        <action
+            android:id="@+id/action_movieDetailContainerFragment_to_moviesListFragment"
+            app:destination="@id/moviesListFragment" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
     </fragment>
 </navigation>
