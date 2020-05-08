@@ -40,5 +40,29 @@
         <argument
             android:name="position"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_movieDetailContainerFragment_to_movieDetailFragment"
+            app:destination="@id/movieDetailFragment" />
+        <action
+            android:id="@+id/action_movieDetailContainerFragment_to_movieReviewFragment"
+            app:destination="@id/movieReviewFragment" />
+        <action
+            android:id="@+id/action_movieDetailContainerFragment_to_movieNotesFragment"
+            app:destination="@id/movieNotesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/movieDetailFragment"
+        android:name="com.utn.haveiseenit.activities.movies.fragments.MovieDetailFragment"
+        android:label="fragment_movie_detail"
+        tools:layout="@layout/fragment_movie_detail" />
+    <fragment
+        android:id="@+id/movieNotesFragment"
+        android:name="com.utn.haveiseenit.activities.movies.fragments.MovieNotesFragment"
+        android:label="fragment_movie_notes"
+        tools:layout="@layout/fragment_movie_notes" />
+    <fragment
+        android:id="@+id/movieReviewFragment"
+        android:name="com.utn.haveiseenit.activities.movies.fragments.MovieReviewFragment"
+        android:label="fragment_movie_review"
+        tools:layout="@layout/fragment_movie_review" />
 </navigation>

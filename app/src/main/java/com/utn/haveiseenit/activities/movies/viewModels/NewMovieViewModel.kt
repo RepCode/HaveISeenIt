@@ -41,7 +41,8 @@ class NewMovieViewModel : ViewModel() {
                 .execute()
             val response = call.body() as MovieCreditsResponse
             launch(Dispatchers.Main) {
-                director = response.crew.first { it.job == "Director" }.name
+                val directorObject = response.crew.firstOrNull { it.job == "Director" }
+                director = directorObject?.name ?: ""
                 onCastObtained(director)
             }
         }
