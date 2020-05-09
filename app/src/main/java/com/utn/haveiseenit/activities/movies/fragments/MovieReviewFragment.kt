@@ -53,6 +53,7 @@ class MovieReviewFragment : Fragment() {
                 movieDetailViewModel.onDiscardChanges().observe(requireActivity(), Observer<Unit>
                 {
                     v.findViewById<TextInputEditText>(R.id.review_text).setText(this.review?.text)
+                    movieDetailViewModel.clearEditMode()
                 })
             })
     }
