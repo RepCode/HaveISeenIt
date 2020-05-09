@@ -46,7 +46,7 @@ class MoviesListFragment : Fragment() {
             if (movies.isNotEmpty()) {
                 v.findViewById<TextView>(R.id.empty_list_message).visibility = View.INVISIBLE
             }
-            setReciclerView()
+            setRecyclerView()
         })
         activity?.findViewById<AutoCompleteTextView>(R.id.search_autocomplete)?.visibility =
             View.VISIBLE
@@ -73,7 +73,7 @@ class MoviesListFragment : Fragment() {
         )
     }
 
-    private fun setReciclerView(){
+    private fun setRecyclerView(){
         v.findViewById<RecyclerView>(R.id.notes_recycler_view).apply {
             layoutManager = viewManager
             adapter = viewAdapter

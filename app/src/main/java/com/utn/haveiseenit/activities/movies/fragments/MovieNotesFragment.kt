@@ -56,7 +56,9 @@ class MovieNotesFragment : Fragment() {
     ): View? {
         v = inflater.inflate(R.layout.fragment_movie_notes, container, false)
         v.findViewById<TextInputEditText>(R.id.note_text).addTextChangedListener {
-            movieDetailViewModel.setEditMode()
+            if(v.findViewById<TextInputEditText>(R.id.note_text).isFocused){
+                movieDetailViewModel.setEditMode()
+            }
         }
         return v
     }

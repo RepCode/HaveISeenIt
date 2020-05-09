@@ -31,7 +31,9 @@ class MovieReviewFragment : Fragment() {
                 this.review = review
                 v.findViewById<TextInputEditText>(R.id.review_text).setText(this.review?.text)
                 v.findViewById<TextInputEditText>(R.id.review_text).addTextChangedListener {
-                    movieDetailViewModel.setEditMode()
+                    if(v.findViewById<TextInputEditText>(R.id.review_text).isFocused){
+                        movieDetailViewModel.setEditMode()
+                    }
                 }
             })
         movieDetailViewModel.getMovie()

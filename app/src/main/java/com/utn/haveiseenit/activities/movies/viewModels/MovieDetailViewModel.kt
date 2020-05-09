@@ -67,6 +67,7 @@ class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
     fun setMovie(movieModel: MovieModel) {
         this.movieModel.value = movieModel
         this.review.value = null
+        this.notes.value = listOf()
     }
 
     fun setEditMode() {
