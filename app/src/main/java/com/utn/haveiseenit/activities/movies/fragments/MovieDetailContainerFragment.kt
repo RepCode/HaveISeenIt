@@ -1,16 +1,14 @@
 package com.utn.haveiseenit.activities.movies.fragments
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.AutoCompleteTextView
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -26,13 +24,7 @@ class MovieDetailContainerFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
     private lateinit var movieDetailViewModel: MovieDetailViewModel
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        movieDetailViewModel =
-            ViewModelProvider(requireActivity()).get(MovieDetailViewModel::class.java)
-        movieDetailViewModel.setMovie(MovieDetailContainerFragmentArgs.fromBundle(requireArguments()).movie)
-    }
+    private lateinit var toolbarMenu: Menu
 
     override fun onStart() {
         super.onStart()
@@ -48,6 +40,18 @@ class MovieDetailContainerFragment : Fragment() {
                 }
             }).attach()
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.edit_toolbar, menu)
+        movieDetailViewModel =
+            ViewModelProvider(requireActivity()).get(MovieDetailViewModel::class.java)
+        movieDetailViewModel.setMovie(MovieDetailContainerFragmentArgs.fromBundle(requireArguments()).movie)
+        movieDetailViewModel.getIsEditMode().observe(requireActivity(), Observer<Boolean> { isEditMode ->
+            menu.findItem(R.id.action_confirm)?.isVisible = isEditMode
+            menu.findItem(R.id.action_cancel)?.isVisible = isEditMode
+        })
+        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun createCardAdapter(): ViewPagerAdapter? {
@@ -84,6 +88,7 @@ class MovieDetailContainerFragment : Fragment() {
         tabLayout = v.findViewById(R.id.tab_layout)
         viewPager = v.findViewById(R.id.view_pager)
 
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // hide search bar from toolbar
         activity?.findViewById<AutoCompleteTextView>(R.id.search_autocomplete)?.visibility =
             View.INVISIBLE
@@ -107,6 +112,7 @@ class MovieDetailContainerFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(callback)
+        setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
     }
 }

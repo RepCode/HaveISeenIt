@@ -12,6 +12,7 @@ import com.utn.haveiseenit.database.appDatabase
 class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
     var movieDao: MovieDao = appDatabase.getAppDataBase(app)!!.movieDao()
 
+    private val isEditMode = MutableLiveData<Boolean>(false)
     private val movieModel = MutableLiveData<MovieModel>()
 
     fun changeMovieStatus(status: String){
@@ -25,5 +26,17 @@ class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun setMovie(movieModel: MovieModel) {
         this.movieModel.value = movieModel
+    }
+
+    fun setEditMode(){
+        isEditMode.value = true
+    }
+
+    fun clearEditMode(){
+        isEditMode.value = false
+    }
+
+    fun getIsEditMode(): LiveData<Boolean>{
+        return isEditMode
     }
 }

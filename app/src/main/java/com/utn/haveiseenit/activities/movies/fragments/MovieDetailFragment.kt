@@ -49,7 +49,6 @@ class MovieDetailFragment() : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -69,12 +68,6 @@ class MovieDetailFragment() : Fragment() {
             changeMovieScore()
         }
         return v
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.empty_toolbar, menu)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        super.onCreateOptionsMenu(menu, inflater)
     }
 
     private fun changeMovieState() {
