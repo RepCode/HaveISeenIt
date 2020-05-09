@@ -101,7 +101,7 @@ class MovieDetailFragment() : Fragment() {
         editText.requestFocus()
     }
 
-    data class StatusModel(val displayName: String, val statusName: String)
+    data class StatusModel(val displayName: String, val statusName: Int)
 
     class InputFilterMinMax(min: Float, max: Float) : InputFilter {
         private var min: Float = 0.0F

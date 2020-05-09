@@ -56,7 +56,7 @@ class MoviesAdapter(private val movies: List<MovieModel>, val adapterOnClick: (M
         }
     }
 
-    private fun setStatus(holder: MoviesViewHolder, state: String) {
+    private fun setStatus(holder: MoviesViewHolder, state: Int) {
         val textView = holder.view.findViewById<TextView>(R.id.list_status_text)
         MovieLayoutHelpers.setStatus(state, textView, holder.view)
     }

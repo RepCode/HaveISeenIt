@@ -7,19 +7,34 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.utn.haveiseenit.activities.movies.viewModels.models.MovieModel
 import com.utn.haveiseenit.database.MovieDao
+import com.utn.haveiseenit.database.NoteDao
 import com.utn.haveiseenit.database.ReviewDao
 import com.utn.haveiseenit.database.appDatabase
+import com.utn.haveiseenit.entities.Note
 import com.utn.haveiseenit.entities.Review
 
 class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
     private var movieDao: MovieDao = appDatabase.getAppDataBase(app)!!.movieDao()
     private var reviewDao: ReviewDao = appDatabase.getAppDataBase(app)!!.reviewDao()
+    private var noteDao: NoteDao = appDatabase.getAppDataBase(app)!!.noteDao()
 
     private val isEditMode = MutableLiveData<Boolean>(false)
     private val movieModel = MutableLiveData<MovieModel>()
     private val review = MutableLiveData<Review?>()
+    private val notes = MutableLiveData<List<Note>>()
     private val commitChanges = MutableLiveData<Unit>()
     private val discardChanges = MutableLiveData<Unit>()
+
+    fun getMovieNotes():LiveData<List<Note>>{
+        if(notes.value.isNullOrEmpty()){
+             notes.value = noteDao.loadMovieNotes(movieModel.value!!.movie.id)
+        }
+        return notes
+    }
+
+    fun addNote(text: String, tag: Int){
+        noteDao.insertNote(Note(0, movieModel.value!!.movie.id, text, tag))
+    }
 
     fun getMovieReview(): LiveData<Review?> {
         if (review.value == null) {
@@ -39,7 +54,7 @@ class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
         reviewDao.updateReview(review)
     }
 
-    fun changeMovieStatus(status: String) {
+    fun changeMovieStatus(status: Int) {
         movieModel.value?.movie?.status = status
         movieDao.updateMovieStatus(movieModel.value!!.movie.id, status)
         movieModel.postValue(movieModel.value)

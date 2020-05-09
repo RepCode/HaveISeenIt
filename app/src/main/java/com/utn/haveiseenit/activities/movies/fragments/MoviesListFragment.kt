@@ -74,7 +74,7 @@ class MoviesListFragment : Fragment() {
     }
 
     private fun setReciclerView(){
-        v.findViewById<RecyclerView>(R.id.movies_recycler_view).apply {
+        v.findViewById<RecyclerView>(R.id.notes_recycler_view).apply {
             layoutManager = viewManager
             adapter = viewAdapter
         }

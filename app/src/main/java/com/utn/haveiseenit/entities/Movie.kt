@@ -25,7 +25,7 @@ data  class Movie(
     @ColumnInfo(name = "durationMin")
     val durationMin: Int,
     @ColumnInfo(name = "status")
-    var status: String
+    var status: Int
 )
 
 class MovieAndReview(
@@ -48,9 +48,9 @@ data class MovieWithNotes(
 )
 
 object MovieStatuses{
-    const val pending = "PENDING"
-    const val started = "STARTED"
-    const val seen = "SEEN"
-    const val inReview = "IN_REVIEW"
-    const val reviewed = "REVIEWED"
+    const val pending = 0
+    const val started = 1
+    const val seen = 2
+    const val inReview = 3
+    const val reviewed = 4
 }

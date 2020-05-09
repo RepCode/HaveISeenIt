@@ -9,7 +9,7 @@
     tools:context=".activities.movies.fragments.MoviesListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/movies_recycler_view"
+        android:id="@+id/notes_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

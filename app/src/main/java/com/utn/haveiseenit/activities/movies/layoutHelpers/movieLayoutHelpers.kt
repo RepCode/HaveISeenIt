@@ -7,7 +7,7 @@ import com.utn.haveiseenit.R
 import com.utn.haveiseenit.entities.MovieStatuses
 
 object MovieLayoutHelpers{
-    fun setStatus(status: String, textView: TextView, v: View) {
+    fun setStatus(status: Int, textView: TextView, v: View) {
         when (status) {
             MovieStatuses.pending -> {
                 textView.text =
