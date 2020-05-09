@@ -10,7 +10,8 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.Navigation
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -18,12 +19,20 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 import com.utn.haveiseenit.R
+import com.utn.haveiseenit.activities.movies.viewModels.MovieDetailViewModel
 
 class MovieDetailContainerFragment : Fragment() {
     private lateinit var v: View
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
-    private var movieIndex: Int? = null
+    private lateinit var movieDetailViewModel: MovieDetailViewModel
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        movieDetailViewModel =
+            ViewModelProvider(requireActivity()).get(MovieDetailViewModel::class.java)
+        movieDetailViewModel.setMovie(MovieDetailContainerFragmentArgs.fromBundle(requireArguments()).movie)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -42,19 +51,19 @@ class MovieDetailContainerFragment : Fragment() {
     }
 
     private fun createCardAdapter(): ViewPagerAdapter? {
-        return ViewPagerAdapter(movieIndex!!, requireActivity())
+        return ViewPagerAdapter(requireActivity())
     }
 
-    class ViewPagerAdapter(private val movieIndex: Int, fragmentActivity: FragmentActivity) :
+    class ViewPagerAdapter(fragmentActivity: FragmentActivity) :
         FragmentStateAdapter(fragmentActivity) {
         override fun createFragment(position: Int): Fragment {
 
-            return when(position){
-                0 -> MovieDetailFragment(movieIndex)
+            return when (position) {
+                0 -> MovieDetailFragment()
                 1 -> MovieReviewFragment()
                 2 -> MovieNotesFragment()
 
-                else -> MovieDetailFragment(movieIndex)
+                else -> MovieDetailFragment()
             }
         }
 
@@ -74,8 +83,6 @@ class MovieDetailContainerFragment : Fragment() {
         v = inflater.inflate(R.layout.fragment_movie_detail_container, container, false)
         tabLayout = v.findViewById(R.id.tab_layout)
         viewPager = v.findViewById(R.id.view_pager)
-
-        movieIndex = MovieDetailContainerFragmentArgs.fromBundle(requireArguments()).position
 
         // hide search bar from toolbar
         activity?.findViewById<AutoCompleteTextView>(R.id.search_autocomplete)?.visibility =

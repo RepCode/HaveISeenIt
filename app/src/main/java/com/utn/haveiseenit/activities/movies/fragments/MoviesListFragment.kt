@@ -16,15 +16,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.ToolbarEvents
 import com.utn.haveiseenit.activities.movies.adapters.MoviesAdapter
-import com.utn.haveiseenit.activities.movies.viewModels.MovieView
-import com.utn.haveiseenit.activities.movies.viewModels.MovieViewModel
-import com.utn.haveiseenit.database.MovieDao
-import com.utn.haveiseenit.database.appDatabase
+import com.utn.haveiseenit.activities.movies.viewModels.MovieListViewModel
+import com.utn.haveiseenit.activities.movies.viewModels.models.MovieModel
 import com.utn.haveiseenit.services.MovieResponse
 
 class MoviesListFragment : Fragment() {
     private lateinit var v: View
-    private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
@@ -40,23 +37,16 @@ class MoviesListFragment : Fragment() {
         setHasOptionsMenu(true)
 
         v = inflater.inflate(R.layout.fragment_movies_list, container, false)
-        val movieViewModel: MovieViewModel by viewModels()
-        movieViewModel.getMovies().observe(requireActivity(), Observer<List<MovieView>> { movies ->
+        val movieViewModel: MovieListViewModel by viewModels()
+        movieViewModel.getMovies().observe(requireActivity(), Observer<List<MovieModel>> { movies ->
             viewManager = LinearLayoutManager(context)
-            viewAdapter = MoviesAdapter(movies) { position ->
-                v.findNavController().navigate(
-                    MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailContainerFragment(
-                        position
-                    )
-                )
+            viewAdapter = MoviesAdapter(movies) { movie ->
+                navigateToMovieDetail(movie)
             }
             if (movies.isNotEmpty()) {
                 v.findViewById<TextView>(R.id.empty_list_message).visibility = View.INVISIBLE
             }
-            recyclerView = v.findViewById<RecyclerView>(R.id.movies_recycler_view).apply {
-                layoutManager = viewManager
-                adapter = viewAdapter
-            }
+            setReciclerView()
         })
         activity?.findViewById<AutoCompleteTextView>(R.id.search_autocomplete)?.visibility =
             View.VISIBLE
@@ -75,5 +65,18 @@ class MoviesListFragment : Fragment() {
         inflater.inflate(R.menu.empty_toolbar, menu)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun navigateToMovieDetail(movieModel: MovieModel){
+        v.findNavController().navigate(
+            MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailContainerFragment(movieModel)
+        )
+    }
+
+    private fun setReciclerView(){
+        v.findViewById<RecyclerView>(R.id.movies_recycler_view).apply {
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
     }
 }

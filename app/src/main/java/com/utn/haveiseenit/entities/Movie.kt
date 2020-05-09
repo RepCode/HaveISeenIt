@@ -1,6 +1,7 @@
 package com.utn.haveiseenit.entities
 
 import androidx.room.*
+import java.io.Serializable
 
 @Entity(tableName = "movies")
 data  class Movie(

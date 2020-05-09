@@ -16,6 +16,11 @@
         <action
             android:id="@+id/action_moviesListFragment_to_movieDetailContainerFragment"
             app:destination="@id/movieDetailContainerFragment" />
+        <argument
+            android:name="movie"
+            app:argType="com.utn.haveiseenit.activities.movies.viewModels.models.MovieModel"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
     <fragment
         android:id="@+id/newMovieFragment"
@@ -37,9 +42,6 @@
         <action
             android:id="@+id/action_movieDetailContainerFragment_to_moviesListFragment"
             app:destination="@id/moviesListFragment" />
-        <argument
-            android:name="position"
-            app:argType="integer" />
         <action
             android:id="@+id/action_movieDetailContainerFragment_to_movieDetailFragment"
             app:destination="@id/movieDetailFragment" />
@@ -49,6 +51,9 @@
         <action
             android:id="@+id/action_movieDetailContainerFragment_to_movieNotesFragment"
             app:destination="@id/movieNotesFragment" />
+        <argument
+            android:name="movie"
+            app:argType="com.utn.haveiseenit.activities.movies.viewModels.models.MovieModel" />
     </fragment>
     <fragment
         android:id="@+id/movieDetailFragment"

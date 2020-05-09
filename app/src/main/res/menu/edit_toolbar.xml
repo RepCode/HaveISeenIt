@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <item
+        android:id="@+id/action_confirm"
+        android:icon="@drawable/ic_check_grey_24dp"
+        android:title="@string/toolbar_confirm_changes"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_cancel"
+        android:icon="@drawable/ic_clear_grey_24dp"
+        android:title="@string/toolbar_cancel_changes"
+        app:showAsAction="always" />
 </menu>
