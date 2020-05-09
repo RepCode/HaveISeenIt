@@ -12,5 +12,5 @@ data class Review(
     @ColumnInfo(name = "movieId")
     val movieId: Int,
     @ColumnInfo(name = "text")
-    val text: String
+    var text: String
 )

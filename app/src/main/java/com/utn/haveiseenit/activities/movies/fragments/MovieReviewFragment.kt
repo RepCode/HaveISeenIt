@@ -5,13 +5,56 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.textfield.TextInputEditText
 
 import com.utn.haveiseenit.R
+import com.utn.haveiseenit.activities.movies.viewModels.MovieDetailViewModel
+import com.utn.haveiseenit.activities.movies.viewModels.models.MovieModel
+import com.utn.haveiseenit.entities.Review
 
 class MovieReviewFragment : Fragment() {
     private lateinit var v: View
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private lateinit var movieDetailViewModel: MovieDetailViewModel
+    private var review: Review? = null
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        movieDetailViewModel =
+            ViewModelProvider(requireActivity()).get(MovieDetailViewModel::class.java)
+        movieDetailViewModel.getMovieReview()
+            .observe(requireActivity(), Observer<Review?> { review ->
+                this.review = review
+                v.findViewById<TextInputEditText>(R.id.review_text).setText(this.review?.text)
+                v.findViewById<TextInputEditText>(R.id.review_text).addTextChangedListener {
+                    movieDetailViewModel.setEditMode()
+                }
+            })
+        movieDetailViewModel.getMovie()
+            .observe(requireActivity(), Observer<MovieModel> { movieModel ->
+                movieDetailViewModel.onCommitChanges().observe(requireActivity(), Observer<Unit>
+                {
+                    if (review == null) {
+                        review = Review(
+                            0,
+                            movieModel.movie.id,
+                            v.findViewById<TextInputEditText>(R.id.review_text).text.toString()
+                        )
+                        movieDetailViewModel.addReview(review!!)
+                    } else {
+                        review!!.text =
+                            v.findViewById<TextInputEditText>(R.id.review_text).text.toString()
+                        movieDetailViewModel.updateReview(review!!)
+                    }
+                    movieDetailViewModel.clearEditMode()
+                })
+                movieDetailViewModel.onDiscardChanges().observe(requireActivity(), Observer<Unit>
+                {
+                    v.findViewById<TextInputEditText>(R.id.review_text).setText(this.review?.text)
+                })
+            })
     }
 
     override fun onCreateView(

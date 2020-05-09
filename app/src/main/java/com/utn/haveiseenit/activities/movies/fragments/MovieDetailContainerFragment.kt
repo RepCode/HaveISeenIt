@@ -15,6 +15,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.android.material.textfield.TextInputEditText
 
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.viewModels.MovieDetailViewModel
@@ -24,7 +25,13 @@ class MovieDetailContainerFragment : Fragment() {
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
     private lateinit var movieDetailViewModel: MovieDetailViewModel
-    private lateinit var toolbarMenu: Menu
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        movieDetailViewModel =
+            ViewModelProvider(requireActivity()).get(MovieDetailViewModel::class.java)
+        movieDetailViewModel.setMovie(MovieDetailContainerFragmentArgs.fromBundle(requireArguments()).movie)
+    }
 
     override fun onStart() {
         super.onStart()
@@ -44,13 +51,18 @@ class MovieDetailContainerFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.edit_toolbar, menu)
-        movieDetailViewModel =
-            ViewModelProvider(requireActivity()).get(MovieDetailViewModel::class.java)
-        movieDetailViewModel.setMovie(MovieDetailContainerFragmentArgs.fromBundle(requireArguments()).movie)
         movieDetailViewModel.getIsEditMode().observe(requireActivity(), Observer<Boolean> { isEditMode ->
             menu.findItem(R.id.action_confirm)?.isVisible = isEditMode
             menu.findItem(R.id.action_cancel)?.isVisible = isEditMode
         })
+        menu.findItem(R.id.action_confirm).setOnMenuItemClickListener {
+            movieDetailViewModel.emitCommitChanges()
+            true
+        }
+        menu.findItem(R.id.action_cancel).setOnMenuItemClickListener {
+            movieDetailViewModel.emitDiscardChanges()
+            true
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -114,5 +126,10 @@ class MovieDetailContainerFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(callback)
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
+    }
+
+    override fun onDestroyView() {
+        movieDetailViewModel.getMovieReview().removeObservers(requireActivity())
+        super.onDestroyView()
     }
 }

@@ -1,13 +1,13 @@
 package com.utn.haveiseenit.database
 
 import androidx.room.*
-import com.utn.haveiseenit.entities.Movie
-import com.utn.haveiseenit.entities.MovieAndReview
-import com.utn.haveiseenit.entities.MovieWithNotes
-import com.utn.haveiseenit.entities.User
+import com.utn.haveiseenit.entities.*
 
 @Dao
 interface MovieDao {
+
+    @Query("SELECT * FROM reviews WHERE movieId=:movieId")
+    fun loadMovieReview(movieId: Int):Review?
 
     @Query("SELECT * FROM movies ORDER BY id")
     fun loadAllMovies(): MutableList<Movie?>?

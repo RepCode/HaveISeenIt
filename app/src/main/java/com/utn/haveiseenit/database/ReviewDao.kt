@@ -7,18 +7,18 @@ import com.utn.haveiseenit.entities.Review
 interface ReviewDao {
 
     @Query("SELECT * FROM reviews ORDER BY id")
-    fun loadAllMovies(): MutableList<Review?>?
+    fun loadAllReviews(): MutableList<Review?>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertMovie(review: Review?)
+    fun insertReview(review: Review?)
 
     @Update
-    fun updateMovie(review: Review?)
+    fun updateReview(review: Review?)
 
     @Delete
     fun delete(review: Review?)
 
     @Query("SELECT * FROM reviews WHERE id = :id")
-    fun loadMovieById(id: Int): Review?
+    fun loadReviewById(id: Int): Review?
 
 }
