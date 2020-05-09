@@ -52,7 +52,7 @@ class MovieDetailContainerFragment : Fragment() {
             return when(position){
                 0 -> MovieDetailFragment(movieIndex)
                 1 -> MovieReviewFragment()
-                2 -> MovieReviewFragment()
+                2 -> MovieNotesFragment()
 
                 else -> MovieDetailFragment(movieIndex)
             }

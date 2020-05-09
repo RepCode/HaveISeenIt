@@ -51,6 +51,7 @@
     <string name="dialog_close">OK</string>
     <string name="dialog_cancel">CANCEL</string>
     <string name="dialog_title">Cambiar Estado</string>
+    <string name="mark_review">Marcar como terminada</string>
     <!--  New Movie  -->
     <string name="add_to_my_library">Agregar a mi Biblioteca</string>
     <string name="movie_added_message">Película agregada tu biblioteca</string>
