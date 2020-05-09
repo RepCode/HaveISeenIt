@@ -42,6 +42,7 @@ class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
     fun changeMovieStatus(status: String) {
         movieModel.value?.movie?.status = status
         movieDao.updateMovieStatus(movieModel.value!!.movie.id, status)
+        movieModel.postValue(movieModel.value)
     }
 
     fun getMovie(): LiveData<MovieModel> {

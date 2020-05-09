@@ -15,7 +15,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.google.android.material.textfield.TextInputEditText
 
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.viewModels.MovieDetailViewModel
@@ -54,6 +53,7 @@ class MovieDetailContainerFragment : Fragment() {
         movieDetailViewModel.getIsEditMode().observe(requireActivity(), Observer<Boolean> { isEditMode ->
             menu.findItem(R.id.action_confirm)?.isVisible = isEditMode
             menu.findItem(R.id.action_cancel)?.isVisible = isEditMode
+            (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(!isEditMode)
         })
         menu.findItem(R.id.action_confirm).setOnMenuItemClickListener {
             movieDetailViewModel.emitCommitChanges()
@@ -129,6 +129,7 @@ class MovieDetailContainerFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        movieDetailViewModel.clearEditMode()
         movieDetailViewModel.getMovieReview().removeObservers(requireActivity())
         super.onDestroyView()
     }
