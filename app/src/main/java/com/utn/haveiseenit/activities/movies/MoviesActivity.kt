@@ -62,6 +62,11 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
 
     override var onSearchItemSelected = { _: MovieResponse -> Unit }
 
+    override fun requestSearchbarFocus(){
+        acTextView.requestFocus()
+        acTextView.showDropDown()
+    }
+
     private fun searchByName(query: String) {
         GlobalScope.launch(Dispatchers.Default) {
             val call = getRetrofit().create(APIService::class.java)
@@ -80,4 +85,5 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
 
 interface ToolbarEvents {
     var onSearchItemSelected: (MovieResponse) -> Unit
+    fun requestSearchbarFocus()
 }

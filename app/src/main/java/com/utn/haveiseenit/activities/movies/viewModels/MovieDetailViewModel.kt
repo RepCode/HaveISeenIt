@@ -34,6 +34,7 @@ class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun addNote(text: String, tag: Int){
         noteDao.insertNote(Note(0, movieModel.value!!.movie.id, text, tag))
+        notes.value = noteDao.loadMovieNotes(movieModel.value!!.movie.id)
     }
 
     fun getMovieReview(): LiveData<Review?> {

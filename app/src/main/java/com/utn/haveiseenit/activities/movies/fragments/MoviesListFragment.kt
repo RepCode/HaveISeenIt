@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.ToolbarEvents
 import com.utn.haveiseenit.activities.movies.adapters.MoviesAdapter
@@ -57,6 +58,10 @@ class MoviesListFragment : Fragment() {
             v.findNavController().navigate(
                 MoviesListFragmentDirections.actionMoviesListFragmentToNewMovieFragment(movie)
             )
+        }
+
+        v.findViewById<FloatingActionButton>(R.id.new_movie_button).setOnClickListener{
+            (activity as ToolbarEvents).requestSearchbarFocus()
         }
         return v
     }

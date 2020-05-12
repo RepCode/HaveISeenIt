@@ -12,7 +12,7 @@ interface MovieDao {
     @Query("SELECT * FROM movies ORDER BY id")
     fun loadAllMovies(): MutableList<Movie?>?
 
-    @Query("SELECT * FROM movies WHERE userId=:userId ORDER BY id")
+    @Query("SELECT * FROM movies WHERE userId=:userId ORDER BY id DESC")
     fun loadUserMovies(userId: Int): MutableList<Movie?>?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
