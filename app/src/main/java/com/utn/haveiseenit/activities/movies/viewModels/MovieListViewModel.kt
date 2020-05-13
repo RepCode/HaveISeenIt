@@ -15,8 +15,26 @@ class MovieListViewModel(application: Application) : AndroidViewModel(applicatio
         MutableLiveData<List<MovieModel>>().also {
         }
     }
-
+    private val selectedIds = MutableLiveData<MutableList<Int>>()
+    private val hasSelectedIds = MutableLiveData<Boolean>()
     private val hasMovies = MutableLiveData<Boolean>(false)
+
+    fun hasSelectedMovies(): LiveData<Boolean> {
+        return hasSelectedIds
+    }
+
+    fun removeSelectedMovie(id: Int) {
+        selectedIds.value!!.remove(id)
+        hasSelectedIds.value = !selectedIds.value.isNullOrEmpty()
+    }
+
+    fun addSelectedMovie(id: Int) {
+        if (selectedIds.value == null) {
+            selectedIds.value = mutableListOf()
+        }
+        selectedIds.value!!.add(id)
+        hasSelectedIds.value = !selectedIds.value.isNullOrEmpty()
+    }
 
     fun getMovies(): LiveData<List<MovieModel>> {
         loadMovies()
@@ -34,10 +52,12 @@ class MovieListViewModel(application: Application) : AndroidViewModel(applicatio
         }
         movies.value = movieList
         hasMovies.value = !movieList.isNullOrEmpty()
+        hasSelectedIds.value = !selectedIds.value.isNullOrEmpty()
     }
 
-    private fun removeMovies(movieIds: Array<Int>) {
-        movieDao.deleteMoviesByIds(movieIds)
+    fun deleteMovies() {
+        movieDao.deleteMoviesByIds(selectedIds.value!!.toTypedArray())
+        selectedIds.value = mutableListOf()
         loadMovies()
     }
 }

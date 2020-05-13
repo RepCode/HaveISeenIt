@@ -18,18 +18,17 @@ import com.utn.haveiseenit.activities.movies.viewModels.models.MovieModel
 
 class MoviesAdapter(
     activity: FragmentActivity,
-    private val onMovieSelectionChange: (Int) -> Unit,
     val adapterOnClick: (MovieModel) -> Unit
 ) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
+    private var movieListViewModel: MovieListViewModel = ViewModelProvider(activity).get(MovieListViewModel::class.java)
     init {
-        ViewModelProvider(activity).get(MovieListViewModel::class.java).getMovies().observe(activity, Observer<List<MovieModel>> { moviesList ->
+        movieListViewModel.getMovies().observe(activity, Observer<List<MovieModel>> { moviesList ->
             movies = moviesList
+            notifyDataSetChanged()
         })
     }
     private lateinit var movies: List<MovieModel>
-
-    val selectedMovies = mutableListOf<Int>()
 
     class MoviesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     }
@@ -67,15 +66,15 @@ class MoviesAdapter(
         }
         setStatus(holder, movies[position].movie.status)
         val card = holder.view.findViewById<MaterialCardView>(R.id.movie_card)
+        card.isChecked = false
         holder.view.findViewById<CardView>(R.id.movie_card).setOnLongClickListener {
             if (card.isChecked) {
-                selectedMovies.remove(movies[position].movie.id)
+                movieListViewModel.removeSelectedMovie(movies[position].movie.id)
                 card.isChecked = false
             } else {
-                selectedMovies.add(movies[position].movie.id)
+                movieListViewModel.addSelectedMovie(movies[position].movie.id)
                 card.isChecked = true
             }
-            onMovieSelectionChange(selectedMovies.size)
             true
         }
         holder.view.findViewById<CardView>(R.id.movie_card).setOnClickListener {

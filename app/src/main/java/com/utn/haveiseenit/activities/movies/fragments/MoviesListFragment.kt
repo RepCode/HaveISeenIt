@@ -25,7 +25,8 @@ class MoviesListFragment : Fragment() {
     private lateinit var v: View
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    private lateinit var toolbar: Menu
+    private var toolbar: Menu? = null
+    private lateinit var moviesViewModel: MovieListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,15 +41,18 @@ class MoviesListFragment : Fragment() {
 
         v = inflater.inflate(R.layout.fragment_movies_list, container, false)
         viewManager = LinearLayoutManager(context)
-        viewAdapter = MoviesAdapter(requireActivity(), onMovieSelectionChange) { movie ->
+        viewAdapter = MoviesAdapter(requireActivity()) { movie ->
             navigateToMovieDetail(movie)
         }
-        val moviesViewModel =
+        moviesViewModel =
             ViewModelProvider(requireActivity()).get(MovieListViewModel::class.java)
         moviesViewModel.hasMovies().observe(requireActivity(), Observer<Boolean> { hasMovies ->
             if (hasMovies) {
                 v.findViewById<TextView>(R.id.empty_list_message).visibility = View.INVISIBLE
             }
+        })
+        moviesViewModel.hasSelectedMovies().observe(requireActivity(), Observer<Boolean>{hasSelection ->
+            onMovieSelectionChange(hasSelection)
         })
         setRecyclerView()
 
@@ -71,10 +75,11 @@ class MoviesListFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.delete_toolbar, menu)
         toolbar = menu
-        onMovieSelectionChange(0) // hide delete button
-//        toolbar.findItem(R.id.action_delete).setOnMenuItemClickListener {
-//
-//        }
+        onMovieSelectionChange(false) // hide delete button
+        toolbar!!.findItem(R.id.action_delete).setOnMenuItemClickListener {
+            moviesViewModel.deleteMovies()
+            true
+        }
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -94,8 +99,8 @@ class MoviesListFragment : Fragment() {
         }
     }
 
-    private val onMovieSelectionChange = { selectionSize: Int ->
-        toolbar.findItem(R.id.action_delete)?.isVisible = selectionSize > 0
-        (activity as ToolbarEvents).setSearchBarVisibility(selectionSize == 0)
+    private val onMovieSelectionChange = { hasSelection: Boolean ->
+        toolbar?.findItem(R.id.action_delete)?.isVisible = hasSelection
+        (activity as ToolbarEvents).setSearchBarVisibility(!hasSelection)
     }
 }
