@@ -24,6 +24,9 @@ interface MovieDao {
     @Query("UPDATE movies SET status=:status WHERE id=:id")
     fun updateMovieStatus(id: Int, status: Int)
 
+    @Query("DELETE FROM movies WHERE id IN (:ids)")
+    fun deleteMoviesByIds(ids: Array<Int>)
+
     @Delete
     fun delete(movie: Movie?)
 

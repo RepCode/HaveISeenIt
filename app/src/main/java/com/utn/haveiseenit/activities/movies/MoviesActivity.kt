@@ -62,9 +62,17 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
 
     override var onSearchItemSelected = { _: MovieResponse -> Unit }
 
-    override fun requestSearchbarFocus(){
+    override fun requestSearchBarFocus(){
         acTextView.requestFocus()
         acTextView.showDropDown()
+    }
+
+    override fun setSearchBarVisibility(isVisible: Boolean){
+        if(isVisible){
+            acTextView.visibility = View.VISIBLE
+        } else {
+            acTextView.visibility = View.INVISIBLE
+        }
     }
 
     private fun searchByName(query: String) {
@@ -85,5 +93,6 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
 
 interface ToolbarEvents {
     var onSearchItemSelected: (MovieResponse) -> Unit
-    fun requestSearchbarFocus()
+    fun requestSearchBarFocus()
+    fun setSearchBarVisibility(isVisible: Boolean)
 }

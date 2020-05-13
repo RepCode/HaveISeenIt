@@ -62,4 +62,5 @@
     <!--  Toolbars  -->
     <string name="toolbar_confirm_changes">Save</string>
     <string name="toolbar_cancel_changes">Cancel</string>
+    <string name="toolbar_delete">Delete</string>
 </resources>

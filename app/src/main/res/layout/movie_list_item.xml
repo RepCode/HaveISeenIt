@@ -6,14 +6,18 @@
     android:layout_height="120dp"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/movie_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="5dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:checkable="true"
+        app:checkedIconTint="@color/blueColor">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -98,5 +102,5 @@
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent="0.96" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </LinearLayout>

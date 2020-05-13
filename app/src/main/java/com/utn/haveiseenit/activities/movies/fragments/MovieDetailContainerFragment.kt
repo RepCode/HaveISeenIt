@@ -17,6 +17,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 import com.utn.haveiseenit.R
+import com.utn.haveiseenit.activities.movies.ToolbarEvents
 import com.utn.haveiseenit.activities.movies.viewModels.MovieDetailViewModel
 
 class MovieDetailContainerFragment : Fragment() {
@@ -102,8 +103,7 @@ class MovieDetailContainerFragment : Fragment() {
 
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
         // hide search bar from toolbar
-        activity?.findViewById<AutoCompleteTextView>(R.id.search_autocomplete)?.visibility =
-            View.INVISIBLE
+        (activity as ToolbarEvents).setSearchBarVisibility(false)
         // set navigation back
         val toolbar: Toolbar = (activity as AppCompatActivity).findViewById(R.id.toolbar)
         toolbar.setNavigationOnClickListener {

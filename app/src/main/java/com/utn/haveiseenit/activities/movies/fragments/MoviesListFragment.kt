@@ -4,12 +4,12 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,6 +25,7 @@ class MoviesListFragment : Fragment() {
     private lateinit var v: View
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
+    private lateinit var toolbar: Menu
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,19 +39,20 @@ class MoviesListFragment : Fragment() {
         setHasOptionsMenu(true)
 
         v = inflater.inflate(R.layout.fragment_movies_list, container, false)
-        val movieViewModel: MovieListViewModel by viewModels()
-        movieViewModel.getMovies().observe(requireActivity(), Observer<List<MovieModel>> { movies ->
-            viewManager = LinearLayoutManager(context)
-            viewAdapter = MoviesAdapter(movies) { movie ->
-                navigateToMovieDetail(movie)
-            }
-            if (movies.isNotEmpty()) {
+        viewManager = LinearLayoutManager(context)
+        viewAdapter = MoviesAdapter(requireActivity(), onMovieSelectionChange) { movie ->
+            navigateToMovieDetail(movie)
+        }
+        val moviesViewModel =
+            ViewModelProvider(requireActivity()).get(MovieListViewModel::class.java)
+        moviesViewModel.hasMovies().observe(requireActivity(), Observer<Boolean> { hasMovies ->
+            if (hasMovies) {
                 v.findViewById<TextView>(R.id.empty_list_message).visibility = View.INVISIBLE
             }
-            setRecyclerView()
         })
-        activity?.findViewById<AutoCompleteTextView>(R.id.search_autocomplete)?.visibility =
-            View.VISIBLE
+        setRecyclerView()
+
+        (activity as ToolbarEvents).setSearchBarVisibility(true)
 
         (activity as ToolbarEvents).onSearchItemSelected = { movie: MovieResponse ->
             val imm = context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -60,28 +62,40 @@ class MoviesListFragment : Fragment() {
             )
         }
 
-        v.findViewById<FloatingActionButton>(R.id.new_movie_button).setOnClickListener{
-            (activity as ToolbarEvents).requestSearchbarFocus()
+        v.findViewById<FloatingActionButton>(R.id.new_movie_button).setOnClickListener {
+            (activity as ToolbarEvents).requestSearchBarFocus()
         }
         return v
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.empty_toolbar, menu)
+        inflater.inflate(R.menu.delete_toolbar, menu)
+        toolbar = menu
+        onMovieSelectionChange(0) // hide delete button
+//        toolbar.findItem(R.id.action_delete).setOnMenuItemClickListener {
+//
+//        }
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun navigateToMovieDetail(movieModel: MovieModel){
+    private fun navigateToMovieDetail(movieModel: MovieModel) {
         v.findNavController().navigate(
-            MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailContainerFragment(movieModel)
+            MoviesListFragmentDirections.actionMoviesListFragmentToMovieDetailContainerFragment(
+                movieModel
+            )
         )
     }
 
-    private fun setRecyclerView(){
+    private fun setRecyclerView() {
         v.findViewById<RecyclerView>(R.id.notes_recycler_view).apply {
             layoutManager = viewManager
             adapter = viewAdapter
         }
+    }
+
+    private val onMovieSelectionChange = { selectionSize: Int ->
+        toolbar.findItem(R.id.action_delete)?.isVisible = selectionSize > 0
+        (activity as ToolbarEvents).setSearchBarVisibility(selectionSize == 0)
     }
 }

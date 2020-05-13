@@ -55,7 +55,6 @@ class MovieDetailFragment() : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        setHasOptionsMenu(true)
         v = inflater.inflate(R.layout.fragment_movie_detail, container, false)
         // Set listeners
         v.findViewById<TextView>(R.id.detail_status_text).setOnClickListener {
@@ -74,8 +73,7 @@ class MovieDetailFragment() : Fragment() {
         val statuses = arrayOf(
             StatusModel(getString(R.string.movie_status_to_watch), MovieStatuses.pending),
             StatusModel(getString(R.string.movie_status_started), MovieStatuses.started),
-            StatusModel(getString(R.string.movie_status_seen), MovieStatuses.seen),
-            StatusModel(getString(R.string.movie_status_in_review), MovieStatuses.inReview)
+            StatusModel(getString(R.string.movie_status_seen), MovieStatuses.seen)
         )
         val builder = AlertDialog.Builder(requireContext(), R.style.Dialog)
         var index: Int? = null

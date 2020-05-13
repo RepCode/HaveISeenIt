@@ -1,20 +1,35 @@
 package com.utn.haveiseenit.activities.movies.adapters
 
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.layoutHelpers.MovieLayoutHelpers
+import com.utn.haveiseenit.activities.movies.viewModels.MovieListViewModel
 import com.utn.haveiseenit.activities.movies.viewModels.models.MovieModel
-import com.utn.haveiseenit.entities.MovieStatuses
 
-class MoviesAdapter(private val movies: List<MovieModel>, val adapterOnClick: (MovieModel) -> Unit) :
+class MoviesAdapter(
+    activity: FragmentActivity,
+    private val onMovieSelectionChange: (Int) -> Unit,
+    val adapterOnClick: (MovieModel) -> Unit
+) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
+    init {
+        ViewModelProvider(activity).get(MovieListViewModel::class.java).getMovies().observe(activity, Observer<List<MovieModel>> { moviesList ->
+            movies = moviesList
+        })
+    }
+    private lateinit var movies: List<MovieModel>
+
+    val selectedMovies = mutableListOf<Int>()
 
     class MoviesViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
     }
@@ -44,13 +59,25 @@ class MoviesAdapter(private val movies: List<MovieModel>, val adapterOnClick: (M
         holder.view.findViewById<TextView>(R.id.list_director_text).text =
             holder.view.context.getString(R.string.list_director, movies[position].movie.director)
         val rating = movies[position].movie.rating
-        if(rating == null){
+        if (rating == null) {
             holder.view.findViewById<TextView>(R.id.list_score_text).visibility = View.INVISIBLE
-        } else{
+        } else {
             holder.view.findViewById<TextView>(R.id.list_score_text).text =
                 holder.view.context.getString(R.string.list_rating, rating)
         }
         setStatus(holder, movies[position].movie.status)
+        val card = holder.view.findViewById<MaterialCardView>(R.id.movie_card)
+        holder.view.findViewById<CardView>(R.id.movie_card).setOnLongClickListener {
+            if (card.isChecked) {
+                selectedMovies.remove(movies[position].movie.id)
+                card.isChecked = false
+            } else {
+                selectedMovies.add(movies[position].movie.id)
+                card.isChecked = true
+            }
+            onMovieSelectionChange(selectedMovies.size)
+            true
+        }
         holder.view.findViewById<CardView>(R.id.movie_card).setOnClickListener {
             adapterOnClick(movies[position])
         }
