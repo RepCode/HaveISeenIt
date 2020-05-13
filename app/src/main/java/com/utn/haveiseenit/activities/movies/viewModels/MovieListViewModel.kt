@@ -19,9 +19,7 @@ class MovieListViewModel(application: Application) : AndroidViewModel(applicatio
     private val hasMovies = MutableLiveData<Boolean>(false)
 
     fun getMovies(): LiveData<List<MovieModel>> {
-        if (movies.value.isNullOrEmpty()) {
-            loadMovies()
-        }
+        loadMovies()
         return movies
     }
 
@@ -31,14 +29,14 @@ class MovieListViewModel(application: Application) : AndroidViewModel(applicatio
 
     private fun loadMovies() {
         val movieList = mutableListOf<MovieModel>()
-        movieDao.loadUserMovies(ApplicationUser.userId!!)?.forEach { it->
+        movieDao.loadUserMovies(ApplicationUser.userId!!)?.forEach { it ->
             movieList.add(MovieModel(it!!))
         }
         movies.value = movieList
         hasMovies.value = !movieList.isNullOrEmpty()
     }
 
-    private fun removeMovies(movieIds: Array<Int>){
+    private fun removeMovies(movieIds: Array<Int>) {
         movieDao.deleteMoviesByIds(movieIds)
         loadMovies()
     }

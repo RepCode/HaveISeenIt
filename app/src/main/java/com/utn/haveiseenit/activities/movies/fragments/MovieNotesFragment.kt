@@ -33,6 +33,8 @@ class MovieNotesFragment : Fragment() {
                     v.findViewById<TextInputEditText>(R.id.note_text).text.toString(),
                     NoteTag.general
                 )
+                v.findViewById<TextInputEditText>(R.id.note_text).setText("")
+                movieDetailViewModel.clearEditMode()
             }
         })
         movieDetailViewModel.getMovieNotes()
