@@ -46,7 +46,6 @@
             android:popupBackground="@color/colorPrimary"
             android:textColor="@color/colorWhite"
             android:textColorHint="@color/colorGrey"
-            android:completionHint="@string/search_hint"
             android:textSize="24sp"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="2dp" />

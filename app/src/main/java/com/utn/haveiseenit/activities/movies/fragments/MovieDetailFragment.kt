@@ -81,7 +81,6 @@ class MovieDetailFragment() : Fragment() {
         builder.setSingleChoiceItems((statuses.map { it.displayName }).toTypedArray(), -1) { _, i ->
             index = i
         }
-
         builder.setPositiveButton(getString(R.string.dialog_close)) { _, _ ->
             if (index != null) {
                 movieDetailViewModel.changeMovieStatus(statuses[index!!].statusName)

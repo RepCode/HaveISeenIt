@@ -63,6 +63,7 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
     override var onSearchItemSelected = { _: MovieResponse -> Unit }
 
     override fun requestSearchBarFocus(){
+        acTextView.setText("")
         acTextView.requestFocus()
         acTextView.showDropDown()
     }
