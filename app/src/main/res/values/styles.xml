@@ -12,7 +12,8 @@
     </style>
 
     <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColor">@color/blueColor</item>
+        <item name="android:textSize">20dp</item>
     </style>
 
     <style name="Dialog" parent="@android:style/Theme.Material.Dialog">
@@ -20,6 +21,7 @@
         <item name="textColorAlertDialogListItem">@color/colorWhite</item>
         <item name="android:headerDividersEnabled">true</item>
         <item name="android:background">@color/colorPrimary</item>
+        <item name="android:colorAccent">@color/blueColor</item>
         <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
     </style>
 </resources>

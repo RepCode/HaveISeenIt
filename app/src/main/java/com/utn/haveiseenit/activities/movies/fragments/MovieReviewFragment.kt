@@ -27,14 +27,9 @@ class MovieReviewFragment : Fragment() {
         movieDetailViewModel =
             ViewModelProvider(requireActivity()).get(MovieDetailViewModel::class.java)
         movieDetailViewModel.getMovieReview()
-            .observe(requireActivity(), Observer<Review?> { review ->
+            .observe(requireActivity(), Observer { review ->
                 this.review = review
                 v.findViewById<TextInputEditText>(R.id.review_text).setText(this.review?.text)
-                v.findViewById<TextInputEditText>(R.id.review_text).addTextChangedListener {
-                    if(v.findViewById<TextInputEditText>(R.id.review_text).isFocused){
-                        movieDetailViewModel.setEditMode()
-                    }
-                }
             })
         movieDetailViewModel.getMovie()
             .observe(requireActivity(), Observer<MovieModel> { movieModel ->
@@ -74,6 +69,11 @@ class MovieReviewFragment : Fragment() {
                 movieDetailViewModel.changeMovieStatus(MovieStatuses.reviewed)
             } else {
                 movieDetailViewModel.changeMovieStatus(MovieStatuses.inReview)
+            }
+        }
+        v.findViewById<TextInputEditText>(R.id.review_text).addTextChangedListener {
+            if(v.findViewById<TextInputEditText>(R.id.review_text).isFocused){
+                movieDetailViewModel.setEditMode()
             }
         }
         return v
