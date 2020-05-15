@@ -72,7 +72,7 @@ class MovieReviewFragment : Fragment() {
             }
         }
         v.findViewById<TextInputEditText>(R.id.review_text).addTextChangedListener {
-            if(v.findViewById<TextInputEditText>(R.id.review_text).isFocused){
+            if(v.findViewById<TextInputEditText>(R.id.review_text).isCursorVisible){
                 movieDetailViewModel.setEditMode()
             }
         }
