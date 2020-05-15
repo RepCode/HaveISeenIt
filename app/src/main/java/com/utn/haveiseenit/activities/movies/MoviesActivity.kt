@@ -1,8 +1,10 @@
 package com.utn.haveiseenit.activities.movies
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -27,6 +29,7 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
     lateinit var acTextView: AutoCompleteTextView
     var movies: List<MovieResponse> = ArrayList()
     private lateinit var adapter: ArrayAdapter<String>
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movies)
@@ -39,14 +42,18 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
         acTextView.setAdapter(adapter)
         acTextView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if(acTextView.text.isNullOrEmpty()){
+                    acTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_search_grey_24dp), null)
+                } else {
+                    acTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_clear_grey_24dp), null)
+                }
                 val char = acTextView.text.lastOrNull()
                 if (char != null && char == ' ') {
                     searchByName(acTextView.text.toString())
                 }
-                false
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -58,6 +65,18 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
 
             onSearchItemSelected(movie)
         }
+        acTextView.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                if(event?.rawX!! >= (acTextView.right - acTextView.compoundDrawablesRelative[2].bounds.width()))
+                {
+                    acTextView.setText("")
+                    acTextView.requestFocus()
+                    return true;
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
     }
 
     override var onSearchItemSelected = { _: MovieResponse -> Unit }
