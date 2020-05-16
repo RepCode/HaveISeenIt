@@ -2,6 +2,7 @@ package com.utn.haveiseenit.activities.movies.viewModels
 
 import android.app.Application
 import android.graphics.drawable.Drawable
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -109,5 +110,15 @@ class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun onStatusChanged(): LiveData<Int> {
         return statusChanged
+    }
+
+    fun clearObservers(activity: FragmentActivity){
+        getMovie().removeObservers(activity)
+        getMovieNotes().removeObservers(activity)
+        getMovieReview().removeObservers(activity)
+        getIsEditMode().removeObservers(activity)
+        onCommitChanges().removeObservers(activity)
+        onDiscardChanges().removeObservers(activity)
+        onStatusChanged().removeObservers(activity)
     }
 }

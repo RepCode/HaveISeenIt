@@ -143,7 +143,7 @@ class MovieDetailContainerFragment : Fragment() {
 
     override fun onDestroyView() {
         movieDetailViewModel.clearEditMode()
-        movieDetailViewModel.getMovieReview().removeObservers(requireActivity())
+        movieDetailViewModel.clearObservers(requireActivity())
         super.onDestroyView()
     }
 }
