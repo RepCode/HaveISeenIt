@@ -33,15 +33,19 @@ class MovieDetailContainerFragment : Fragment() {
         movieDetailViewModel =
             ViewModelProvider(requireActivity()).get(MovieDetailViewModel::class.java)
         movieDetailViewModel.setMovie(MovieDetailContainerFragmentArgs.fromBundle(requireArguments()).movie)
+        var currentStatus = movieDetailViewModel.onStatusChanged().value
         movieDetailViewModel.onStatusChanged().observe(requireActivity(), Observer<Int> { status ->
-            Snackbar.make(
-                v,
-                getString(
-                    R.string.status_changed_message,
-                    MovieLayoutHelpers.getMovieStatusDisplayName(requireContext(), status)
-                ),
-                Snackbar.LENGTH_SHORT
-            ).show()
+            if (currentStatus != status) {
+                currentStatus = status
+                Snackbar.make(
+                    v,
+                    getString(
+                        R.string.status_changed_message,
+                        MovieLayoutHelpers.getMovieStatusDisplayName(requireContext(), status)
+                    ),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
         })
     }
 
