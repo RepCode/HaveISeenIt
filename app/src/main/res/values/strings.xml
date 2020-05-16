@@ -40,6 +40,8 @@
     <string name="movie_status_seen">VISTA</string>
     <string name="movie_status_in_review">REVIEW DRAFT</string>
     <string name="movie_status_reviewed">REVIEWED</string>
+    <string name="delete_dialog_title">Estás seguro?</string>
+    <string name="movie_deleted_message">Se ha borrado con éxito</string>
     <!--  Movie Detail  -->
     <string name="tab_info">INFO</string>
     <string name="tab_review">REVIEW</string>

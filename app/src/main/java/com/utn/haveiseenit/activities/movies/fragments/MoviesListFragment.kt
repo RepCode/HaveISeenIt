@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.ToolbarEvents
 import com.utn.haveiseenit.activities.movies.adapters.MoviesAdapter
@@ -51,9 +53,10 @@ class MoviesListFragment : Fragment() {
                 v.findViewById<TextView>(R.id.empty_list_message).visibility = View.INVISIBLE
             }
         })
-        moviesViewModel.hasSelectedMovies().observe(requireActivity(), Observer<Boolean>{hasSelection ->
-            onMovieSelectionChange(hasSelection)
-        })
+        moviesViewModel.hasSelectedMovies()
+            .observe(requireActivity(), Observer<Boolean> { hasSelection ->
+                onMovieSelectionChange(hasSelection)
+            })
         setRecyclerView()
 
         (activity as ToolbarEvents).setSearchBarVisibility(true)
@@ -77,7 +80,21 @@ class MoviesListFragment : Fragment() {
         toolbar = menu
         onMovieSelectionChange(false) // hide delete button
         toolbar!!.findItem(R.id.action_delete).setOnMenuItemClickListener {
-            moviesViewModel.deleteMovies()
+            val builder = AlertDialog.Builder(requireContext(), R.style.Dialog)
+            var index: Int? = null
+            builder.setTitle(getString(R.string.delete_dialog_title))
+            builder.setPositiveButton(getString(R.string.dialog_close)) { _, _ ->
+                moviesViewModel.deleteMovies()
+                Snackbar.make(
+                    v,
+                    getString(R.string.movie_deleted_message),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+            }
+            builder.setNegativeButton(getString(R.string.dialog_cancel)) { _, _ ->
+            }
+            builder.show()
+
             true
         }
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
