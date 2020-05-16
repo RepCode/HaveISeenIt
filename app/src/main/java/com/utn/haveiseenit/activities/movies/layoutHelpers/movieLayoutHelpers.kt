@@ -1,12 +1,13 @@
 package com.utn.haveiseenit.activities.movies.layoutHelpers
 
+import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.view.View
 import android.widget.TextView
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.entities.MovieStatuses
 
-object MovieLayoutHelpers{
+object MovieLayoutHelpers {
     fun setStatus(status: Int, textView: TextView, v: View) {
         when (status) {
             MovieStatuses.pending -> {
@@ -41,4 +42,52 @@ object MovieLayoutHelpers{
             }
         }
     }
+
+    fun getManualEditableMovieStatusesArray(context: Context): Array<StatusModel> {
+        return arrayOf(
+            StatusModel(
+                context.getString(R.string.movie_status_to_watch),
+                MovieStatuses.pending
+            ),
+            StatusModel(
+                context.getString(R.string.movie_status_started),
+                MovieStatuses.started
+            ),
+            StatusModel(
+                context.getString(R.string.movie_status_seen),
+                MovieStatuses.seen
+            )
+        )
+    }
+
+    fun getAllMovieStatusesArray(context: Context): Array<StatusModel> {
+        return arrayOf(
+            StatusModel(
+                context.getString(R.string.movie_status_to_watch),
+                MovieStatuses.pending
+            ),
+            StatusModel(
+                context.getString(R.string.movie_status_started),
+                MovieStatuses.started
+            ),
+            StatusModel(
+                context.getString(R.string.movie_status_seen),
+                MovieStatuses.seen
+            ),
+            StatusModel(
+                context.getString(R.string.movie_status_in_review),
+                MovieStatuses.inReview
+            ),
+            StatusModel(
+                context.getString(R.string.movie_status_reviewed),
+                MovieStatuses.reviewed
+            )
+        )
+    }
+
+    fun getMovieStatusDisplayName(context: Context, statusId: Int): String {
+        return getAllMovieStatusesArray(context).first { it.statusName == statusId }.displayName
+    }
 }
+
+data class StatusModel(val displayName: String, val statusName: Int)

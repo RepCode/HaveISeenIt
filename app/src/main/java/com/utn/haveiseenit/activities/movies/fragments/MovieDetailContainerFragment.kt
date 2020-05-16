@@ -13,11 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.ToolbarEvents
+import com.utn.haveiseenit.activities.movies.layoutHelpers.MovieLayoutHelpers
 import com.utn.haveiseenit.activities.movies.viewModels.MovieDetailViewModel
 
 class MovieDetailContainerFragment : Fragment() {
@@ -31,6 +33,16 @@ class MovieDetailContainerFragment : Fragment() {
         movieDetailViewModel =
             ViewModelProvider(requireActivity()).get(MovieDetailViewModel::class.java)
         movieDetailViewModel.setMovie(MovieDetailContainerFragmentArgs.fromBundle(requireArguments()).movie)
+        movieDetailViewModel.onStatusChanged().observe(requireActivity(), Observer<Int> { status ->
+            Snackbar.make(
+                v,
+                getString(
+                    R.string.status_changed_message,
+                    MovieLayoutHelpers.getMovieStatusDisplayName(requireContext(), status)
+                ),
+                Snackbar.LENGTH_SHORT
+            ).show()
+        })
     }
 
     override fun onStart() {
@@ -51,11 +63,12 @@ class MovieDetailContainerFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.edit_toolbar, menu)
-        movieDetailViewModel.getIsEditMode().observe(requireActivity(), Observer<Boolean> { isEditMode ->
-            menu.findItem(R.id.action_confirm)?.isVisible = isEditMode
-            menu.findItem(R.id.action_cancel)?.isVisible = isEditMode
-            (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(!isEditMode)
-        })
+        movieDetailViewModel.getIsEditMode()
+            .observe(requireActivity(), Observer<Boolean> { isEditMode ->
+                menu.findItem(R.id.action_confirm)?.isVisible = isEditMode
+                menu.findItem(R.id.action_cancel)?.isVisible = isEditMode
+                (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(!isEditMode)
+            })
         menu.findItem(R.id.action_confirm).setOnMenuItemClickListener {
             movieDetailViewModel.emitCommitChanges()
             true

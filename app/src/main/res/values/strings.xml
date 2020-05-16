@@ -56,6 +56,7 @@
     <string name="write_review">Escribe tu reseña...</string>
     <string name="add_note">Agregar Nota...</string>
     <string name="my_notes">Mis Notas:</string>
+    <string name="status_changed_message">Se ha movido la película a %1$s</string>
     <!--  New Movie  -->
     <string name="add_to_my_library">Agregar a mi Biblioteca</string>
     <string name="movie_added_message">Película agregada tu biblioteca</string>

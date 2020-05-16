@@ -70,11 +70,7 @@ class MovieDetailFragment() : Fragment() {
     }
 
     private fun changeMovieState() {
-        val statuses = arrayOf(
-            StatusModel(getString(R.string.movie_status_to_watch), MovieStatuses.pending),
-            StatusModel(getString(R.string.movie_status_started), MovieStatuses.started),
-            StatusModel(getString(R.string.movie_status_seen), MovieStatuses.seen)
-        )
+        val statuses = MovieLayoutHelpers.getManualEditableMovieStatusesArray(requireContext())
         val builder = AlertDialog.Builder(requireContext(), R.style.Dialog)
         var index: Int? = null
         builder.setTitle(getString(R.string.dialog_title))
@@ -97,8 +93,6 @@ class MovieDetailFragment() : Fragment() {
         editText.isEnabled = true
         editText.requestFocus()
     }
-
-    data class StatusModel(val displayName: String, val statusName: Int)
 
     class InputFilterMinMax(min: Float, max: Float) : InputFilter {
         private var min: Float = 0.0F

@@ -10,6 +10,7 @@ import com.utn.haveiseenit.database.MovieDao
 import com.utn.haveiseenit.database.NoteDao
 import com.utn.haveiseenit.database.ReviewDao
 import com.utn.haveiseenit.database.appDatabase
+import com.utn.haveiseenit.entities.MovieStatuses
 import com.utn.haveiseenit.entities.Note
 import com.utn.haveiseenit.entities.Review
 
@@ -24,6 +25,7 @@ class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
     private val notes = MutableLiveData<List<Note>>()
     private val commitChanges = MutableLiveData<Unit>()
     private val discardChanges = MutableLiveData<Unit>()
+    private val statusChanged = MutableLiveData<Int>()
 
     fun getMovieNotes():LiveData<List<Note>>{
         if(notes.value.isNullOrEmpty()){
@@ -49,6 +51,7 @@ class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun addReview(review: Review) {
         reviewDao.insertReview(review)
+        changeMovieStatus(MovieStatuses.inReview)
     }
 
     fun updateReview(review: Review) {
@@ -59,6 +62,7 @@ class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
         movieModel.value?.movie?.status = status
         movieDao.updateMovieStatus(movieModel.value!!.movie.id, status)
         movieModel.postValue(movieModel.value)
+        emitStatusChanged(status)
     }
 
     fun getMovie(): LiveData<MovieModel> {
@@ -97,5 +101,13 @@ class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
 
     fun onDiscardChanges(): LiveData<Unit> {
         return discardChanges
+    }
+
+    private fun emitStatusChanged(status: Int) {
+        statusChanged.postValue(status)
+    }
+
+    fun onStatusChanged(): LiveData<Int> {
+        return statusChanged
     }
 }
