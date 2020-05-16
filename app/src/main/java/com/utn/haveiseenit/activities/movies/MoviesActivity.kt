@@ -10,10 +10,14 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.fragments.MoviesListFragment
 import com.utn.haveiseenit.activities.movies.fragments.MoviesListFragmentDirections
+import com.utn.haveiseenit.activities.movies.viewModels.MovieListViewModel
+import com.utn.haveiseenit.activities.movies.viewModels.models.MovieModel
 import com.utn.haveiseenit.services.APIService
 import com.utn.haveiseenit.services.MovieResponse
 import com.utn.haveiseenit.services.MoviesSearchResponse
@@ -27,13 +31,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MoviesActivity : AppCompatActivity(), ToolbarEvents {
     lateinit var acTextView: AutoCompleteTextView
-    var movies: List<MovieResponse> = ArrayList()
+    private var apiMovies: List<MovieResponse> = ArrayList()
+    private var dbMovieIds: List<Long> = ArrayList()
     private lateinit var adapter: ArrayAdapter<String>
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movies)
-
+        val moviesViewModel =
+            ViewModelProvider(this).get(MovieListViewModel::class.java)
+        moviesViewModel.getMovies().observe(this, Observer<List<MovieModel>> { moviesList ->
+            dbMovieIds = moviesList.map { it.movie.tmdbId }
+        })
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
         adapter = ArrayAdapter(this, R.layout.search_suggestion_item, listOf())
@@ -61,7 +70,7 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
         })
         acTextView.setOnItemClickListener { adapterView: AdapterView<*>, _: View, i: Int, _: Long ->
             val selected = adapterView.getItemAtPosition(i) as String
-            val movie = movies.first { it.title == selected }
+            val movie = apiMovies.first { it.title == selected }
 
             onSearchItemSelected(movie)
         }
@@ -90,6 +99,7 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
     override fun setSearchBarVisibility(isVisible: Boolean){
         if(isVisible){
             acTextView.visibility = View.VISIBLE
+            acTextView.setText("")
         } else {
             acTextView.visibility = View.INVISIBLE
         }
@@ -102,9 +112,9 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
                 .execute()
             val response = call.body() as MoviesSearchResponse
             launch(Dispatchers.Main) {
-                movies = response.results
+                apiMovies = response.results
                 adapter.clear()
-                adapter.addAll(movies.map { it.title })
+                adapter.addAll(apiMovies.filter { !dbMovieIds.contains(it.tmdbId) }.map { it.title })
                 adapter.notifyDataSetChanged()
             }
         }

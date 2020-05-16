@@ -12,6 +12,9 @@ interface MovieDao {
     @Query("SELECT * FROM movies ORDER BY id")
     fun loadAllMovies(): MutableList<Movie?>?
 
+    @Query("SELECT id FROM movies ORDER BY id")
+    fun loadAllMovieIds(): MutableList<Int>?
+
     @Query("SELECT * FROM movies WHERE userId=:userId ORDER BY id DESC")
     fun loadUserMovies(userId: Int): MutableList<Movie?>?
 
