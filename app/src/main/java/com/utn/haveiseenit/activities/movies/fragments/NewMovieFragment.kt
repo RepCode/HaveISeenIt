@@ -17,8 +17,6 @@ import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.viewModels.NewMovieViewModel
 import com.utn.haveiseenit.database.MovieDao
 import com.utn.haveiseenit.database.appDatabase
-import com.utn.haveiseenit.forms.Form
-import com.utn.haveiseenit.services.UserAuthentication
 
 class NewMovieFragment : Fragment() {
     private lateinit var movieDao: MovieDao

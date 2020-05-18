@@ -51,10 +51,20 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
         acTextView.setAdapter(adapter)
         acTextView.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                if(acTextView.text.isNullOrEmpty()){
-                    acTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_search_grey_24dp), null)
+                if (acTextView.text.isNullOrEmpty()) {
+                    acTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        null,
+                        null,
+                        getDrawable(R.drawable.ic_search_grey_24dp),
+                        null
+                    )
                 } else {
-                    acTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, getDrawable(R.drawable.ic_clear_grey_24dp), null)
+                    acTextView.setCompoundDrawablesRelativeWithIntrinsicBounds(
+                        null,
+                        null,
+                        getDrawable(R.drawable.ic_clear_grey_24dp),
+                        null
+                    )
                 }
                 val char = acTextView.text.lastOrNull()
                 if (char != null && char == ' ') {
@@ -76,8 +86,7 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
         }
         acTextView.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                if(event?.rawX!! >= (acTextView.right - acTextView.compoundDrawablesRelative[2].bounds.width()))
-                {
+                if (event?.rawX!! >= (acTextView.right - acTextView.compoundDrawablesRelative[2].bounds.width())) {
                     acTextView.setText("")
                     acTextView.requestFocus()
                     return true;
@@ -90,14 +99,14 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
 
     override var onSearchItemSelected = { _: MovieResponse -> Unit }
 
-    override fun requestSearchBarFocus(){
+    override fun requestSearchBarFocus() {
         acTextView.setText("")
         acTextView.requestFocus()
         acTextView.showDropDown()
     }
 
-    override fun setSearchBarVisibility(isVisible: Boolean){
-        if(isVisible){
+    override fun setSearchBarVisibility(isVisible: Boolean) {
+        if (isVisible) {
             acTextView.visibility = View.VISIBLE
             acTextView.setText("")
         } else {
@@ -107,15 +116,18 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
 
     private fun searchByName(query: String) {
         GlobalScope.launch(Dispatchers.Default) {
-            val call = getRetrofit().create(APIService::class.java)
-                .getMoviesByKeyword("search/movie?api_key=486d247609821da0b98bb27f87b76be3&query=\"$query\"")
-                .execute()
-            val response = call.body() as MoviesSearchResponse
-            launch(Dispatchers.Main) {
-                apiMovies = response.results
-                adapter.clear()
-                adapter.addAll(apiMovies.filter { !dbMovieIds.contains(it.tmdbId) }.map { it.title })
-                adapter.notifyDataSetChanged()
+            try {
+                val call = getRetrofit().create(APIService::class.java)
+                    .getMoviesByKeyword("search/movie?api_key=486d247609821da0b98bb27f87b76be3&query=\"$query\"")
+                    .execute()
+                val response = call.body() as MoviesSearchResponse
+                launch(Dispatchers.Main) {
+                    apiMovies = response.results
+                    adapter.clear()
+                    adapter.addAll(apiMovies.filter { !dbMovieIds.contains(it.tmdbId) }.map { it.title })
+                    adapter.notifyDataSetChanged()
+                }
+            } catch(ex: Exception) {
             }
         }
     }

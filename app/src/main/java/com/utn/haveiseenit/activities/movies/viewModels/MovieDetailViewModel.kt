@@ -28,6 +28,10 @@ class MovieDetailViewModel(val app: Application) : AndroidViewModel(app) {
     private val discardChanges = MutableLiveData<Unit>()
     private val statusChanged = MutableLiveData<Int>()
 
+    fun changeMovieScore(score: Float){
+        movieDao.changeScore(movieModel.value!!.movie.id, score)
+    }
+
     fun getMovieNotes():LiveData<List<Note>>{
         if(notes.value.isNullOrEmpty()){
              notes.value = noteDao.loadMovieNotes(movieModel.value!!.movie.id)

@@ -6,6 +6,9 @@ import com.utn.haveiseenit.entities.*
 @Dao
 interface MovieDao {
 
+    @Query("UPDATE movies SET rating=:score WHERE id=:id")
+    fun changeScore(id: Int, score: Float)
+
     @Query("SELECT * FROM reviews WHERE movieId=:movieId")
     fun loadMovieReview(movieId: Int):Review?
 

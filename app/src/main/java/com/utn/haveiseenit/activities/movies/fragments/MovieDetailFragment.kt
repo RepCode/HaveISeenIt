@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.InputFilter
 import android.text.Spanned
 import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
 
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.layoutHelpers.MovieLayoutHelpers
@@ -92,6 +94,20 @@ class MovieDetailFragment() : Fragment() {
         editText.filters = arrayOf<InputFilter>(InputFilterMinMax(0.0F, 10.0F))
         editText.isEnabled = true
         editText.requestFocus()
+        editText.setOnEditorActionListener { v, actionId, _ ->
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                movieDetailViewModel.changeMovieScore(editText.text.toString().toFloat())
+                Snackbar.make(
+                    v,
+                    getString(R.string.score_changed),
+                    Snackbar.LENGTH_SHORT
+                ).show()
+                editText.isEnabled = false
+                true
+            } else {
+                false
+            }
+        }
     }
 
     class InputFilterMinMax(min: Float, max: Float) : InputFilter {

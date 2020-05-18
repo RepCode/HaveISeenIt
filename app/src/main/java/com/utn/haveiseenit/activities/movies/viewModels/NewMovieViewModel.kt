@@ -11,6 +11,7 @@ import com.utn.haveiseenit.services.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlin.Exception
 
 class NewMovieViewModel : ViewModel() {
     fun setMovieData(movie: MovieResponse) {
@@ -36,28 +37,36 @@ class NewMovieViewModel : ViewModel() {
 
     fun getCredits(onCastObtained: (director: String) -> Unit) {
         GlobalScope.launch(Dispatchers.Default) {
-            val call = getRetrofit().create(APIService::class.java)
-                .getMovieCredits("movie/$tmdbId/credits?api_key=486d247609821da0b98bb27f87b76be3")
-                .execute()
-            val response = call.body() as MovieCreditsResponse
-            launch(Dispatchers.Main) {
-                val directorObject = response.crew.firstOrNull { it.job == "Director" }
-                director = directorObject?.name ?: ""
-                onCastObtained(director)
+            try {
+                val call = getRetrofit().create(APIService::class.java)
+                    .getMovieCredits("movie/$tmdbId/credits?api_key=486d247609821da0b98bb27f87b76be3")
+                    .execute()
+                val response = call.body() as MovieCreditsResponse
+                launch(Dispatchers.Main) {
+                    val directorObject = response.crew.firstOrNull { it.job == "Director" }
+                    director = directorObject?.name ?: ""
+                    onCastObtained(director)
+                }
+            } catch (ex: Exception){
+
             }
         }
     }
 
     fun getDetails(onDetailsObtained: (duration: Int) -> Unit) {
-        GlobalScope.launch(Dispatchers.Default) {
-            val call = getRetrofit().create(APIService::class.java)
-                .getMovieDetails("movie/$tmdbId?api_key=486d247609821da0b98bb27f87b76be3")
-                .execute()
-            val response = call.body() as MovieDetailResponse
-            launch(Dispatchers.Main) {
-                duration = response.duration
-                onDetailsObtained(duration!!)
+        try {
+            GlobalScope.launch(Dispatchers.Default) {
+                val call = getRetrofit().create(APIService::class.java)
+                    .getMovieDetails("movie/$tmdbId?api_key=486d247609821da0b98bb27f87b76be3")
+                    .execute()
+                val response = call.body() as MovieDetailResponse
+                launch(Dispatchers.Main) {
+                    duration = response.duration
+                    onDetailsObtained(duration!!)
+                }
             }
+        } catch (ex: Exception) {
+
         }
     }
 
