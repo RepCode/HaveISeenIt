@@ -52,7 +52,7 @@
     <string name="my_score_text">Mi Puntuación</string>
     <string name="state_text">Estado:</string>
     <string name="dialog_close">OK</string>
-    <string name="dialog_cancel">Cancelar</string>
+    <string name="dialog_cancel">No</string>
     <string name="dialog_title">Cambiar Estado</string>
     <string name="mark_review">Marcar como terminada</string>
     <string name="write_review">Escribe tu reseña...</string>
