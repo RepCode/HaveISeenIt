@@ -81,7 +81,7 @@ class NewMovieViewModel : ViewModel() {
             title,
             director,
             null,
-            year!!,
+            year,
             duration,
             MovieStatuses.pending
         )

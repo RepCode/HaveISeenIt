@@ -94,6 +94,7 @@ class MovieDetailFragment() : Fragment() {
         editText.filters = arrayOf<InputFilter>(InputFilterMinMax(0.0F, 10.0F))
         editText.isEnabled = true
         editText.requestFocus()
+        MovieLayoutHelpers.requestKeyboardOpen(requireActivity(), editText)
         editText.setOnEditorActionListener { v, actionId, _ ->
             if(actionId == EditorInfo.IME_ACTION_DONE){
                 movieDetailViewModel.changeMovieScore(editText.text.toString().toFloat())

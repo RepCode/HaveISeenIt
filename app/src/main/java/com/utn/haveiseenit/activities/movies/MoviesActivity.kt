@@ -1,11 +1,13 @@
 package com.utn.haveiseenit.activities.movies
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
@@ -16,6 +18,7 @@ import androidx.navigation.findNavController
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.activities.movies.fragments.MoviesListFragment
 import com.utn.haveiseenit.activities.movies.fragments.MoviesListFragmentDirections
+import com.utn.haveiseenit.activities.movies.layoutHelpers.MovieLayoutHelpers
 import com.utn.haveiseenit.activities.movies.viewModels.MovieListViewModel
 import com.utn.haveiseenit.activities.movies.viewModels.models.MovieModel
 import com.utn.haveiseenit.services.APIService
@@ -105,6 +108,7 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
         acTextView.setText("")
         acTextView.requestFocus()
         acTextView.showDropDown()
+        MovieLayoutHelpers.requestKeyboardOpen(this, acTextView)
     }
 
     override fun setSearchBarVisibility(isVisible: Boolean) {

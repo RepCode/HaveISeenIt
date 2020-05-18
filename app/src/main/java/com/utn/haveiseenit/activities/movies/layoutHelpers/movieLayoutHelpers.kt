@@ -1,9 +1,12 @@
 package com.utn.haveiseenit.activities.movies.layoutHelpers
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.GradientDrawable
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.core.content.ContextCompat.getSystemService
 import com.utn.haveiseenit.R
 import com.utn.haveiseenit.entities.MovieStatuses
 
@@ -60,7 +63,7 @@ object MovieLayoutHelpers {
         )
     }
 
-    fun getAllMovieStatusesArray(context: Context): Array<StatusModel> {
+    private fun getAllMovieStatusesArray(context: Context): Array<StatusModel> {
         return arrayOf(
             StatusModel(
                 context.getString(R.string.movie_status_to_watch),
@@ -87,6 +90,11 @@ object MovieLayoutHelpers {
 
     fun getMovieStatusDisplayName(context: Context, statusId: Int): String {
         return getAllMovieStatusesArray(context).first { it.statusName == statusId }.displayName
+    }
+
+    fun requestKeyboardOpen(activity: Activity, view:View){
+        val imm = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 }
 
