@@ -37,7 +37,9 @@ class MovieReviewFragment : Fragment() {
                     movieModel.movie.status == MovieStatuses.reviewed
                 movieDetailViewModel.onCommitChanges().observe(requireActivity(), Observer<Unit>
                 {
-                    if(movieDetailViewModel.getIsEditMode().value!!){
+                    if (movieDetailViewModel.getIsEditMode().value!! &&
+                        !v.findViewById<TextInputEditText>(R.id.review_text).text.toString().isNullOrEmpty()
+                    ) {
                         if (review == null) {
                             review = Review(
                                 0,
