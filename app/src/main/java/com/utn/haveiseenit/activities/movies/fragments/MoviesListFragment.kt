@@ -81,7 +81,6 @@ class MoviesListFragment : Fragment() {
         onMovieSelectionChange(false) // hide delete button
         toolbar!!.findItem(R.id.action_delete).setOnMenuItemClickListener {
             val builder = AlertDialog.Builder(requireContext(), R.style.Dialog)
-            var index: Int? = null
             builder.setTitle(getString(R.string.delete_dialog_title))
             builder.setPositiveButton(getString(R.string.dialog_close)) { _, _ ->
                 moviesViewModel.deleteMovies()

@@ -1,23 +1,18 @@
 package com.utn.haveiseenit.activities.movies
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import com.utn.haveiseenit.R
-import com.utn.haveiseenit.activities.movies.fragments.MoviesListFragment
-import com.utn.haveiseenit.activities.movies.fragments.MoviesListFragmentDirections
 import com.utn.haveiseenit.activities.movies.layoutHelpers.MovieLayoutHelpers
 import com.utn.haveiseenit.activities.movies.viewModels.MovieListViewModel
 import com.utn.haveiseenit.activities.movies.viewModels.models.MovieModel
@@ -28,10 +23,6 @@ import com.utn.haveiseenit.services.getRetrofit
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.io.Console
-import kotlin.math.log
 
 
 class MoviesActivity : AppCompatActivity(), ToolbarEvents {
@@ -115,6 +106,7 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
         if (isVisible) {
             acTextView.visibility = View.VISIBLE
             acTextView.setText("")
+            apiMovies = ArrayList()
         } else {
             acTextView.visibility = View.INVISIBLE
         }
