@@ -72,8 +72,10 @@ class MovieReviewFragment : Fragment() {
             }
         }
         v.findViewById<TextInputEditText>(R.id.review_text).addTextChangedListener {
-            if(v.findViewById<TextInputEditText>(R.id.review_text).isCursorVisible){
-                if(review == null || v.findViewById<TextInputEditText>(R.id.review_text).text.toString() != review!!.text){
+            val reviewText = v.findViewById<TextInputEditText>(R.id.review_text)
+            val text = reviewText?.text?.toString()
+            if (reviewText.isCursorVisible) {
+                if ((review == null && !text.isNullOrEmpty()) || (review != null && reviewText.text.toString() != review!!.text)) {
                     movieDetailViewModel.setEditMode()
                 }
             }
