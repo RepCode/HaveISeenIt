@@ -76,7 +76,7 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
         })
         acTextView.setOnItemClickListener { adapterView: AdapterView<*>, _: View, i: Int, _: Long ->
             val selected = adapterView.getItemAtPosition(i) as String
-            val movie = apiMovies.first { it.title == selected }
+            val movie = apiMovies.first { it.title.contains(selected) }
 
             onSearchItemSelected(movie)
         }
