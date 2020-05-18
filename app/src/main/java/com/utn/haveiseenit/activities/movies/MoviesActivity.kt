@@ -27,6 +27,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.Console
+import kotlin.math.log
 
 
 class MoviesActivity : AppCompatActivity(), ToolbarEvents {
@@ -115,6 +117,7 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
     }
 
     private fun searchByName(query: String) {
+
         GlobalScope.launch(Dispatchers.Default) {
             try {
                 val call = getRetrofit().create(APIService::class.java)
@@ -127,7 +130,8 @@ class MoviesActivity : AppCompatActivity(), ToolbarEvents {
                     adapter.addAll(apiMovies.filter { !dbMovieIds.contains(it.tmdbId) }.map { it.title })
                     adapter.notifyDataSetChanged()
                 }
-            } catch(ex: Exception) {
+            } catch (ex: Throwable) {
+                val asd = ex.message
             }
         }
     }

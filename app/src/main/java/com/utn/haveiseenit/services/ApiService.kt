@@ -1,6 +1,9 @@
 package com.utn.haveiseenit.services
 
 import com.google.gson.annotations.SerializedName
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.Response
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -43,9 +46,24 @@ interface APIService {
     fun getMovieDetails(@Url url:String): Call<MovieDetailResponse>
 }
 
+class HttpInterceptor() : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val response = chain.proceed(chain.request())
+        val code = response.code()
+
+        if (code in 400..500) {
+            throw Exception()
+        }
+        return response
+    }
+}
+
 fun getRetrofit(): Retrofit {
+    val interceptor = HttpInterceptor()
+    val client = OkHttpClient.Builder().addInterceptor(interceptor).build()
     return Retrofit.Builder()
         .baseUrl("https://api.themoviedb.org/3/")
         .addConverterFactory(GsonConverterFactory.create())
+        .client(client)
         .build()
 }
