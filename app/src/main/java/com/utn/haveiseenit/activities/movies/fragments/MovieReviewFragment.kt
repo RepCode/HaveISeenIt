@@ -37,19 +37,21 @@ class MovieReviewFragment : Fragment() {
                     movieModel.movie.status == MovieStatuses.reviewed
                 movieDetailViewModel.onCommitChanges().observe(requireActivity(), Observer<Unit>
                 {
-                    if (review == null) {
-                        review = Review(
-                            0,
-                            movieModel.movie.id,
-                            v.findViewById<TextInputEditText>(R.id.review_text).text.toString()
-                        )
-                        movieDetailViewModel.addReview(review!!)
-                    } else {
-                        review!!.text =
-                            v.findViewById<TextInputEditText>(R.id.review_text).text.toString()
-                        movieDetailViewModel.updateReview(review!!)
+                    if(movieDetailViewModel.getIsEditMode().value!!){
+                        if (review == null) {
+                            review = Review(
+                                0,
+                                movieModel.movie.id,
+                                v.findViewById<TextInputEditText>(R.id.review_text).text.toString()
+                            )
+                            movieDetailViewModel.addReview(review!!)
+                        } else {
+                            review!!.text =
+                                v.findViewById<TextInputEditText>(R.id.review_text).text.toString()
+                            movieDetailViewModel.updateReview(review!!)
+                        }
+                        movieDetailViewModel.clearEditMode()
                     }
-                    movieDetailViewModel.clearEditMode()
                 })
                 movieDetailViewModel.onDiscardChanges().observe(requireActivity(), Observer<Unit>
                 {

@@ -1,7 +1,6 @@
 package com.utn.haveiseenit.activities.movies.viewModels
 
 import android.app.Application
-import android.graphics.drawable.Drawable
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
